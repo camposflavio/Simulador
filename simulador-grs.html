@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Segurança — Senior GRS</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Work Sans',sans-serif;background:#F4F6F9;min-height:100vh;color:#111827}
+input,select,button{font-family:'Work Sans',sans-serif}
+input::placeholder{color:#9CA3AF}
+
+/* HEADER */
+.header{background:#0A1F3C;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-icon{width:34px;height:34px;background:linear-gradient(135deg,#00B074,#009060);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.header-icon svg{width:18px;height:18px}
+.header-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:white;letter-spacing:-0.3px}
+.header-sub{font-size:12px;color:#4A7AB0;margin-left:4px}
+.header-step{font-size:12px;color:#4A7AB0;letter-spacing:.05em;text-transform:uppercase}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0A1F3C 0%,#0F2D52 100%);padding:48px 24px 52px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,176,116,.12);border:1px solid rgba(0,176,116,.25);border-radius:20px;padding:5px 14px;margin-bottom:20px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:#00B074}
+.hero-badge span{font-size:12px;color:#00B074;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:700;color:white;line-height:1.15;letter-spacing:-.5px;margin-bottom:14px}
+.hero p{font-size:15px;color:#7A9CC0;line-height:1.7;max-width:480px;margin:0 auto 28px}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.hero-stat-num{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:#00B074}
+.hero-stat-lbl{font-size:12px;color:#4A7AB0;margin-top:2px}
+
+/* LAYOUT */
+.container{max-width:720px;margin:0 auto;padding:32px 16px 60px}
+.container-wide{max-width:860px;margin:0 auto;padding:32px 16px 60px}
+
+/* CARD */
+.card{background:white;border-radius:12px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.07);border:1px solid #E5E7EB;margin-bottom:20px}
+.card-title{display:flex;align-items:center;gap:8px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #F3F4F6}
+.card-bar{width:3px;height:18px;background:#00B074;border-radius:2px}
+.card-title span{font-size:13px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.06em}
+
+/* FORM */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2.full .field{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:700;color:#374151}
+.field input,.field select{padding:11px 14px;border-radius:8px;border:1.5px solid #D1D5DB;font-size:14px;color:#111827;background:white;width:100%;outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:#00B074}
+.field .err{font-size:12px;color:#E24B4A;margin-top:2px;display:none}
+.field.has-error input,.field.has-error select{border-color:#E24B4A}
+.field.has-error .err{display:block}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:15px 24px;background:#00B074;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-primary:hover{background:#009060}
+.btn-primary:disabled{background:#D1D5DB;cursor:not-allowed}
+.btn-secondary{padding:13px 22px;background:white;color:#374151;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-secondary:hover{background:#F9FAFB}
+.btn-row{display:flex;gap:12px}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:28px}
+.progress-info{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#6B7280}
+.progress-info strong{color:#0A1F3C}
+.progress-bar{height:5px;background:#E5E7EB;border-radius:99px}
+.progress-fill{height:5px;background:#00B074;border-radius:99px;transition:width .4s ease}
+
+/* MODULE PILLS */
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.pill{padding:5px 12px;border-radius:20px;border:1.5px solid #E5E7EB;background:white;color:#9CA3AF;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
+.pill.done{border-color:#00B074;background:#F0FDF9;color:#00B074}
+.pill.active{border-color:#0A1F3C;background:#0A1F3C;color:white;font-weight:700}
+
+/* MODULE CARD */
+.mod-header{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #F3F4F6}
+.mod-icon{font-size:22px}
+.mod-label{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:#0A1F3C}
+.question-block{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #F9FAFB}
+.question-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.question-text{font-size:15px;color:#111827;font-weight:500;line-height:1.55;margin-bottom:14px}
+.question-num{color:#00B074;font-weight:700;margin-right:8px}
+.options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.opt{padding:12px 8px;border-radius:10px;border:2px solid #E5E7EB;background:white;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s}
+.opt:hover{border-color:#9CA3AF}
+.opt.selected-1{border-color:#E24B4A;background:#FEF2F2}
+.opt.selected-2{border-color:#EF9F27;background:#FFFBEB}
+.opt.selected-3{border-color:#3B82F6;background:#EFF6FF}
+.opt.selected-4{border-color:#00B074;background:#F0FDF9}
+.opt-num{font-size:17px;font-weight:800;color:#D1D5DB}
+.opt.selected-1 .opt-num{color:#E24B4A}
+.opt.selected-2 .opt-num{color:#EF9F27}
+.opt.selected-3 .opt-num{color:#3B82F6}
+.opt.selected-4 .opt-num{color:#00B074}
+.opt-lbl{font-size:11px;font-weight:700;color:#9CA3AF;text-align:center;line-height:1.3}
+.opt.selected-1 .opt-lbl{color:#E24B4A}
+.opt.selected-2 .opt-lbl{color:#EF9F27}
+.opt.selected-3 .opt-lbl{color:#3B82F6}
+.opt.selected-4 .opt-lbl{color:#00B074}
+
+/* RESULTADO */
+.result-hero{background:#0A1F3C;border-radius:16px;padding:32px;margin-bottom:20px;position:relative;overflow:hidden}
+.result-hero::before,.result-hero::after{content:'';position:absolute;border-radius:50%;background:rgba(0,176,116,.06)}
+.result-hero::before{width:180px;height:180px;top:-40px;right:-40px}
+.result-hero::after{width:200px;height:200px;bottom:-60px;left:-20px}
+.result-grid{position:relative;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start}
+.result-label-sm{font-size:12px;color:#4A7AB0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.result-score{font-family:'Outfit',sans-serif;font-size:56px;font-weight:700;line-height:1}
+.result-max{color:#4A7AB0;font-size:18px;margin-left:8px}
+.nivel-badge{display:inline-flex;align-items:center;gap:8px;border-radius:20px;padding:6px 14px;margin-bottom:14px;border:1px solid}
+.nivel-badge span{font-weight:700;font-size:14px}
+.result-desc{font-size:14px;color:#7A9CC0;line-height:1.6;max-width:380px}
+.exp-box{background:#111E30;border-radius:12px;padding:22px;min-width:210px;border:1px solid #1E3050}
+.exp-label{font-size:11px;color:#4A7AB0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.exp-val{font-family:'Outfit',sans-serif;color:#E24B4A;font-size:20px;font-weight:700;margin-bottom:4px}
+.exp-range{font-size:13px;color:#4A7AB0;margin-bottom:12px}
+.exp-note{font-size:11px;color:#2A3A4A;line-height:1.5}
+
+/* SCORES POR MÓDULO */
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.score-card{background:#F9FAFB;border-radius:10px;padding:14px 16px;border:1px solid #F3F4F6}
+.score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.score-name{font-size:13px;font-weight:600;color:#374151}
+.score-num{font-size:15px;font-weight:800}
+.score-bar{height:6px;background:#E5E7EB;border-radius:99px}
+.score-fill{height:6px;border-radius:99px}
+
+/* ALERTAS */
+.alert-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:22px;margin-bottom:20px}
+.alert-title{font-weight:700;color:#991B1B;font-size:13px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
+.alert-item{display:flex;align-items:center;gap:10px;background:white;border-radius:8px;padding:10px 14px;border:1px solid #FECACA;margin-bottom:8px}
+.alert-item:last-child{margin-bottom:0}
+.alert-item-name{font-size:14px;color:#7F1D1D;font-weight:500;flex:1}
+.alert-item-score{font-size:13px;font-weight:700;color:#E24B4A}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,#0A1F3C,#0F2D52);border-radius:16px;padding:32px;text-align:center;border:1px solid #162840}
+.cta-icon-wrap{width:48px;height:48px;background:rgba(0,176,116,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px}
+.cta-box h3{font-family:'Outfit',sans-serif;color:white;font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-.2px}
+.cta-box p{color:#7A9CC0;font-size:14px;line-height:1.65;max-width:420px;margin:0 auto 22px}
+.cta-btn{padding:14px 32px;background:#00B074;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;font-family:'Work Sans',sans-serif}
+.cta-btn:hover{background:#009060}
+
+.notice{text-align:center;font-size:12px;color:#9CA3AF;margin-top:12px}
+
+/* HIDDEN */
+.screen{display:none}
+.screen.active{display:block}
+
+@media(max-width:560px){
+  .grid2{grid-template-columns:1fr}
+  .options{grid-template-columns:repeat(2,1fr)}
+  .score-grid{grid-template-columns:1fr}
+  .result-grid{grid-template-columns:1fr}
+  .exp-box{min-width:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6L12 2z" fill="white" opacity=".9"/><path d="M9 12l2 2 4-4" stroke="#00B074" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="header-name">Senior</span><span class="header-sub">GRS</span>
+  </div>
+  <span class="header-step" id="stepLabel">Identificação</span>
+</div>
+
+<!-- TELA 1: DADOS -->
+<div id="screenDados" class="screen active">
+  <div class="hero">
+    <div class="hero-badge"><div class="hero-dot"></div><span>Diagnóstico gratuito</span></div>
+    <h1>Qual é o nível de maturidade<br>da segurança na sua empresa?</h1>
+    <p>Responda 17 perguntas e descubra onde estão suas maiores vulnerabilidades — e qual é a sua exposição financeira real.</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">17</div><div class="hero-stat-lbl">perguntas</div></div>
+      <div><div class="hero-stat-num">~4</div><div class="hero-stat-lbl">minutos</div></div>
+      <div><div class="hero-stat-num">8</div><div class="hero-stat-lbl">áreas avaliadas</div></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="card-title"><div class="card-bar"></div><span>Dados da empresa</span></div>
+      <div class="grid2">
+        <div class="field full" id="f-empresa">
+          <label>Nome da empresa</label>
+          <input type="text" id="empresa" placeholder="Razão social ou nome fantasia">
+          <span class="err">Campo obrigatório</span>
+        </div>
+        <div class="field" id="f-setor">
+          <label>Setor</label>
+          <select id="setor">
+            <option value="">Selecione o setor</option>
+            <option>Indústria</option>
+            <option>Varejo / Atacado</option>
+            <option>Logística</option>
+            <option>Construção Civil</option>
+            <option>Serviços</option>
+            <option>Outro</option>
+          </select>
+          <span class="err">Campo obrigatório</span>
+        </div>
+        <div class="field" id="f-porte">
+          <label>Porte da empresa</label>
+          <select id="porte">
+            <option value="">Selecione o porte</option>
+            <option value="pequena">Até 200 funcionários</option>
+            <option value="media">200 a 1.000 funcionários</option>
+            <option value="grande">Acima de 1.000 funcionários</option>
+          </select>
+          <span class="err">Campo obrigatório</span>
+        </div>
+        <div class="field full" id="f-sites">
+          <label>Número de unidades / sites</label>
+          <input type="number" id="sites" placeholder="Ex: 3" min="1">
+          <span class="err">Campo obrigatório</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="card-bar"></div><span>Dados de contato</span></div>
+      <div class="grid2">
+        <div class="field" id="f-nome">
+          <label>Nome completo</label>
+          <input type="text" id="nome" placeholder="Seu nome">
+          <span class="err">Campo obrigatório</span>
+        </div>
+        <div class="field" id="f-cargo">
+          <label>Cargo</label>
+          <input type="text" id="cargo" placeholder="Ex: Gerente de Segurança">
+          <span class="err">Campo obrigatório</span>
+        </div>
+        <div class="field" id="f-email">
+          <label>E-mail corporativo</label>
+          <input type="email" id="email" placeholder="voce@empresa.com.br">
+          <span class="err">E-mail inválido</span>
+        </div>
+        <div class="field" id="f-telefone">
+          <label>Telefone</label>
+          <input type="text" id="telefone" placeholder="(47) 99999-9999">
+          <span class="err">Campo obrigatório</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="iniciarDiagnostico()">Iniciar diagnóstico →</button>
+    <p class="notice">Seus dados são tratados com confidencialidade e não serão compartilhados com terceiros.</p>
+  </div>
+</div>
+
+<!-- TELA 2: DIAGNÓSTICO -->
+<div id="screenDiag" class="screen">
+  <div class="container">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span><strong id="modNome"></strong> — módulo <span id="modNum"></span> de 8</span>
+        <span><span id="respCount">0</span>/17 perguntas</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="pills" id="pillsContainer"></div>
+    <div class="card" id="modCard"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" id="btnAnterior" onclick="modAnterior()" style="display:none">← Anterior</button>
+      <button class="btn-primary" id="btnProximo" onclick="modProximo()">Próximo módulo →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TELA 3: RESULTADO -->
+<div id="screenResult" class="screen">
+  <div class="container-wide">
+    <div style="margin-bottom:24px">
+      <p style="font-size:13px;color:#6B7280;margin-bottom:4px">Diagnóstico de segurança · <span id="resEmpresa"></span></p>
+      <h1 style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:#0A1F3C;letter-spacing:-.3px">Resultado da avaliação</h1>
+    </div>
+    <div class="result-hero">
+      <div class="result-grid">
+        <div>
+          <div class="result-label-sm">Maturidade geral</div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px">
+            <span class="result-score" id="resScore"></span>
+            <span class="result-max">/ 4.0</span>
+          </div>
+          <div class="nivel-badge" id="nivelBadge"></div>
+          <p class="result-desc" id="nivelDesc"></p>
+        </div>
+        <div class="exp-box">
+          <div class="exp-label">Exposição estimada*</div>
+          <div class="exp-val" id="expMin"></div>
+          <div class="exp-range" id="expMax"></div>
+          <div class="exp-note">*Proxy estatístico. Valores reais variam por setor e histórico.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="card-bar"></div><span>Desempenho por área</span></div>
+      <div class="score-grid" id="scoreGrid"></div>
+    </div>
+    <div id="alertasBox"></div>
+    <div class="cta-box">
+      <div class="cta-icon-wrap">🛡️</div>
+      <h3>Fale com um especialista Senior GRS</h3>
+      <p>Nosso time analisa o diagnóstico e apresenta exatamente quais soluções eliminam suas vulnerabilidades.</p>
+      <button class="cta-btn">Quero falar com um especialista</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MODULOS = [
+  {id:'acesso',label:'Controle de Acesso',icon:'🔐',peso:.20,perguntas:[
+    'Sabemos exatamente quem está dentro da empresa em tempo real',
+    'Acessos não autorizados geram alerta imediato para o responsável',
+    'Conseguimos auditar o histórico de entradas e saídas por pessoa'
+  ]},
+  {id:'portarias',label:'Gestão de Portarias',icon:'🏢',peso:.18,perguntas:[
+    'Nossa portaria opera com processos padronizados e registrados',
+    'Visitantes e prestadores são identificados e registrados na entrada',
+    'Conseguimos provar, se auditados, quem entrou e saiu em qualquer data'
+  ]},
+  {id:'veiculos',label:'Veículos',icon:'🚛',peso:.10,perguntas:[
+    'Controlamos quais veículos têm autorização para entrar no nosso perímetro',
+    'Temos registro de entrada, saída e permanência de veículos'
+  ]},
+  {id:'remota',label:'Gestão Remota',icon:'📡',peso:.12,perguntas:[
+    'Conseguimos monitorar e acionar nossa operação de segurança fora do local',
+    'Incidentes podem ser gerenciados remotamente sem depender de presença física'
+  ]},
+  {id:'pessoas',label:'Pessoas',icon:'👥',peso:.15,perguntas:[
+    'Temos cadastro atualizado de todos que circulam pela empresa (funcionários, visitantes, prestadores)',
+    'Conseguimos identificar rapidamente uma pessoa em qualquer ponto da operação'
+  ]},
+  {id:'internas',label:'Áreas Internas',icon:'🏭',peso:.10,perguntas:[
+    'Áreas sensíveis têm controle de acesso diferenciado por perfil',
+    'Sabemos quando alguém acessa uma área fora do horário ou perfil esperado'
+  ]},
+  {id:'restritas',label:'Áreas Restritas',icon:'⛔',peso:.10,perguntas:[
+    'O acesso a áreas críticas é restrito, registrado e auditável',
+    'Tentativas de acesso não autorizado em áreas restritas são detectadas e registradas'
+  ]},
+  {id:'refeitorio',label:'Refeitório',icon:'🍽️',peso:.05,perguntas:[
+    'Conseguimos controlar e auditar o uso do refeitório por colaborador ou turno'
+  ]}
+];
+
+const ESCALA=[
+  {v:1,lbl:'Não temos',cor:'#E24B4A'},
+  {v:2,lbl:'Manual / informal',cor:'#EF9F27'},
+  {v:3,lbl:'Temos, incompleto',cor:'#3B82F6'},
+  {v:4,lbl:'Auditável',cor:'#00B074'}
+];
+
+const PORTES={pequena:1200000,media:7500000,grande:40000000};
+
+let modAtual=0;
+const respostas={};
+
+function totalRespostas(){return Object.keys(respostas).length}
+
+function fmt(n){return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}
+
+function validarDados(){
+  let ok=true;
+  const campos=[
+    ['empresa','empresa'],['setor','setor'],['porte','porte'],['sites','sites'],
+    ['nome','nome'],['cargo','cargo'],['email','email'],['telefone','telefone']
+  ];
+  campos.forEach(([fId,inId])=>{
+    const f=document.getElementById('f-'+fId);
+    const v=document.getElementById(inId).value.trim();
+    const invalid=(inId==='email')?(v===''||!v.includes('@')):v==='';
+    f.classList.toggle('has-error',invalid);
+    if(invalid)ok=false;
+  });
+  return ok;
+}
+
+function iniciarDiagnostico(){
+  if(!validarDados())return;
+  document.getElementById('screenDados').classList.remove('active');
+  document.getElementById('screenDiag').classList.add('active');
+  document.getElementById('stepLabel').textContent='Diagnóstico';
+  renderMod();
+}
+
+function renderMod(){
+  const m=MODULOS[modAtual];
+  document.getElementById('modNome').textContent=m.label;
+  document.getElementById('modNum').textContent=modAtual+1;
+  document.getElementById('progressFill').style.width=(modAtual/MODULOS.length*100)+'%';
+  document.getElementById('respCount').textContent=totalRespostas();
+  document.getElementById('btnAnterior').style.display=modAtual>0?'block':'none';
+
+  // pills
+  const pc=document.getElementById('pillsContainer');
+  pc.innerHTML='';
+  MODULOS.forEach((mod,i)=>{
+    const done=mod.perguntas.every((_,pi)=>respostas[mod.id+'_'+pi]);
+    const p=document.createElement('button');
+    p.className='pill'+(i===modAtual?' active':done?' done':'');
+    p.textContent=(done&&i!==modAtual?'✓ ':'')+mod.label;
+    p.onclick=()=>{modAtual=i;renderMod()};
+    pc.appendChild(p);
+  });
+
+  // card
+  const card=document.getElementById('modCard');
+  card.innerHTML=`<div class="mod-header"><span class="mod-icon">${m.icon}</span><span class="mod-label">${m.label}</span></div>`+
+    m.perguntas.map((q,i)=>{
+      const key=m.id+'_'+i;
+      const val=respostas[key]||0;
+      return `<div class="question-block">
+        <p class="question-text"><span class="question-num">${i+1}.</span>${q}</p>
+        <div class="options">
+          ${ESCALA.map(op=>`
+            <button class="opt${val===op.v?' selected-'+op.v:''}" onclick="responder('${m.id}',${i},${op.v})">
+              <span class="opt-num">${op.v}</span>
+              <span class="opt-lbl">${op.lbl}</span>
+            </button>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+
+  // botão próximo
+  const btn=document.getElementById('btnProximo');
+  const isLast=modAtual===MODULOS.length-1;
+  const allDone=totalRespostas()>=17;
+  if(isLast){
+    btn.textContent=allDone?'Ver diagnóstico completo →':`${17-totalRespostas()} pergunta(s) sem resposta`;
+    btn.disabled=!allDone;
+    btn.style.background=allDone?'#0A1F3C':'#D1D5DB';
+    btn.onclick=allDone?mostrarResultado:null;
+  }else{
+    btn.textContent='Próximo módulo →';
+    btn.disabled=false;
+    btn.style.background='#00B074';
+    btn.onclick=modProximo;
+  }
+}
+
+function responder(modId,idx,val){
+  respostas[modId+'_'+idx]=val;
+  renderMod();
+}
+
+function modProximo(){if(modAtual<MODULOS.length-1){modAtual++;renderMod()}}
+function modAnterior(){if(modAtual>0){modAtual--;renderMod()}}
+
+function calcularResultado(){
+  let total=0;
+  const porMod={};
+  MODULOS.forEach(m=>{
+    const vals=m.perguntas.map((_,i)=>respostas[m.id+'_'+i]||0);
+    const media=vals.reduce((a,b)=>a+b,0)/vals.length;
+    porMod[m.id]={media,label:m.label,icon:m.icon,peso:m.peso};
+    total+=media*m.peso;
+  });
+  const score=total/MODULOS.reduce((a,m)=>a+m.peso,0);
+  const base=PORTES[document.getElementById('porte').value]||1200000;
+  const fator=1-(score-1)/3;
+  return{score,porMod,expMin:Math.round(base*fator*.4),expMax:Math.round(base*fator*.9)};
+}
+
+function getNivel(s){
+  if(s>=3.5)return{label:'Blindada',emoji:'🛡️',cor:'#00B074',desc:'Sua operação tem controle sólido e auditável. Ajustes pontuais podem elevar ainda mais o nível de proteção.'};
+  if(s>=2.5)return{label:'Controlada',emoji:'⚡',cor:'#3B82F6',desc:'Há estrutura, mas lacunas importantes que podem se tornar passivo em uma auditoria ou incidente inesperado.'};
+  if(s>=1.5)return{label:'Em desenvolvimento',emoji:'⚠️',cor:'#EF9F27',desc:'Processos existem, mas dependem de pessoas e não de sistemas. O risco é real e cresce a cada dia.'};
+  return{label:'Vulnerável',emoji:'🚨',cor:'#E24B4A',desc:'Sua operação está significativamente exposta. Um único incidente pode gerar consequências financeiras graves.'};
+}
+
+function mostrarResultado(){
+  document.getElementById('screenDiag').classList.remove('active');
+  document.getElementById('screenResult').classList.add('active');
+  document.getElementById('stepLabel').textContent='Resultado';
+  window.scrollTo(0,0);
+
+  const r=calcularResultado();
+  const n=getNivel(r.score);
+
+  document.getElementById('resEmpresa').textContent=document.getElementById('empresa').value;
+  const sc=document.getElementById('resScore');
+  sc.textContent=r.score.toFixed(1);
+  sc.style.color=n.cor;
+
+  const badge=document.getElementById('nivelBadge');
+  badge.innerHTML=`<span>${n.emoji}</span><span style="color:${n.cor}">${n.label}</span>`;
+  badge.style.background=n.cor+'22';
+  badge.style.borderColor=n.cor+'44';
+
+  document.getElementById('nivelDesc').textContent=n.desc;
+  document.getElementById('expMin').textContent=fmt(r.expMin);
+  document.getElementById('expMax').textContent='a '+fmt(r.expMax)+'/ano';
+
+  // score grid
+  const sg=document.getElementById('scoreGrid');
+  sg.innerHTML='';
+  MODULOS.forEach(m=>{
+    const mod=r.porMod[m.id];
+    const pct=Math.max(((mod.media-1)/3)*100,4);
+    const cor=mod.media>=3.5?'#00B074':mod.media>=2.5?'#3B82F6':mod.media>=1.5?'#EF9F27':'#E24B4A';
+    sg.innerHTML+=`<div class="score-card">
+      <div class="score-row">
+        <span class="score-name">${m.icon} ${m.label}</span>
+        <span class="score-num" style="color:${cor}">${mod.media.toFixed(1)}</span>
+      </div>
+      <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${cor}"></div></div>
+    </div>`;
+  });
+
+  // alertas
+  const criticas=MODULOS.filter(m=>r.porMod[m.id].media<2.5);
+  const ab=document.getElementById('alertasBox');
+  if(criticas.length){
+    ab.innerHTML=`<div class="alert-box">
+      <div class="alert-title">⚠ Áreas que exigem atenção imediata</div>
+      ${criticas.map(m=>`<div class="alert-item">
+        <span>${m.icon}</span>
+        <span class="alert-item-name">${m.label}</span>
+        <span class="alert-item-score">${r.porMod[m.id].media.toFixed(1)}</span>
+      </div>`).join('')}
+    </div>`;
+  }else{ab.innerHTML=''}
+}
+</script>
+</body>
+</html>
