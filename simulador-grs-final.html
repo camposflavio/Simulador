@@ -1,0 +1,1126 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  .sgrs, .sgrs * { box-sizing: border-box; }
+  .sgrs {
+    --verde: #00958b;
+    --verde-2: #00998f;
+    --menta: #2ac4aa;
+    --roxo: #844ec3;
+    --laranja: #ff8200;
+    --texto: #1d2b2a;
+    --texto-2: #5a6b6a;
+    --borda: #d9e4e3;
+    --fundo-suave: #f3f8f8;
+    --erro: #d93025;
+    font-family: 'Public Sans', Aptos, 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--texto);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 8px 0;
+    line-height: 1.5;
+  }
+  .sgrs h2, .sgrs h3, .sgrs p { margin: 0; }
+  .sgrs [hidden] { display: none !important; }
+
+  /* Campos */
+  .sgrs .grupo-titulo {
+    font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--verde); margin: 4px 0 14px;
+  }
+  .sgrs .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sgrs .campo { display: flex; flex-direction: column; }
+  .sgrs .campo.cheio { grid-column: 1 / -1; }
+  .sgrs label { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--texto); }
+  .sgrs input, .sgrs select {
+    font-family: inherit; font-size: 15px; color: var(--texto);
+    padding: 11px 14px; background: #fff;
+    border: 1.5px solid var(--borda); border-radius: 8px; outline: none; width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .sgrs input:focus, .sgrs select:focus {
+    border-color: var(--verde); box-shadow: 0 0 0 3px rgba(0,149,139,.15);
+  }
+  .sgrs .invalido input, .sgrs .invalido select { border-color: var(--erro); }
+  .sgrs .erro { font-size: 12px; color: var(--erro); margin-top: 4px; display: none; }
+  .sgrs .invalido .erro { display: block; }
+  .sgrs .separador { height: 1px; background: var(--borda); margin: 26px 0 22px; }
+
+  /* Botões */
+  .sgrs .btn {
+    font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+    padding: 13px 26px; border-radius: 8px; border: 1.5px solid transparent;
+    transition: background .15s, transform .05s, opacity .15s; text-decoration: none; display: inline-block; text-align: center;
+  }
+  .sgrs .btn:active { transform: translateY(1px); }
+  .sgrs .btn-primario { background: var(--verde); color: #fff; }
+  .sgrs .btn-primario:hover { background: var(--verde-2); }
+  .sgrs .btn-primario:disabled { background: #b8cfcd; cursor: not-allowed; }
+  .sgrs .btn-secundario { background: #fff; color: var(--verde); border-color: var(--verde); }
+  .sgrs .btn-secundario:hover { background: var(--fundo-suave); }
+  .sgrs .acoes { display: flex; gap: 12px; margin-top: 26px; justify-content: space-between; }
+  .sgrs .acoes.fim { justify-content: flex-end; }
+
+  /* Diagnóstico */
+  .sgrs .topo-diag { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 13px; color: var(--texto-2); font-weight: 600; }
+  .sgrs .barra { height: 6px; background: #e3eeed; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+  .sgrs .barra > div { height: 100%; background: linear-gradient(90deg, var(--verde), var(--menta)); border-radius: 99px; transition: width .3s; }
+  .sgrs .trilha { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+  .sgrs .trilha span {
+    width: 28px; height: 28px; border-radius: 50%; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    background: #eaf1f1; color: var(--texto-2);
+  }
+  .sgrs .trilha span.feito { background: var(--menta); color: #fff; }
+  .sgrs .trilha span.atual { background: var(--roxo); color: #fff; }
+  .sgrs .area-titulo { font-size: 22px; font-weight: 800; margin-bottom: 20px; letter-spacing: -.01em; }
+  .sgrs .pergunta { padding: 20px 0; border-top: 1px solid var(--borda); }
+  .sgrs .pergunta:first-of-type { border-top: 0; padding-top: 0; }
+  .sgrs .pergunta p { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .sgrs .opcoes { display: flex; flex-direction: column; gap: 8px; }
+  .sgrs .opcao {
+    font-family: inherit; cursor: pointer; text-align: left; width: 100%;
+    padding: 12px 14px; border-radius: 8px; border: 1.5px solid var(--borda); background: #fff;
+    display: flex; align-items: center; gap: 12px; transition: border-color .15s, background .15s;
+  }
+  .sgrs .opcao:hover { border-color: var(--menta); background: var(--fundo-suave); }
+  .sgrs .opcao .r {
+    flex: 0 0 18px; width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid var(--borda); background: #fff; transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .sgrs .opcao .t { font-size: 14px; font-weight: 500; color: var(--texto); line-height: 1.35; }
+  .sgrs .opcao.sel { border-color: var(--verde); background: rgba(42,196,170,.12); box-shadow: inset 0 0 0 1px var(--verde); }
+  .sgrs .opcao.sel .r { border-color: var(--verde); background: var(--verde); box-shadow: inset 0 0 0 3px #fff; }
+  .sgrs .opcao.sel .t { font-weight: 600; }
+
+  /* Transições e cálculo */
+  .sgrs .entra { animation: sgrs-entra .4s ease both; }
+  @keyframes sgrs-entra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .sgrs .calc { text-align: center; padding: 60px 0; }
+  .sgrs .calc svg { width: 100px; height: 100px; }
+  .sgrs .calc .trilho { fill: none; stroke: #e3eeed; stroke-width: 8; }
+  .sgrs .calc .giro { fill: none; stroke: var(--verde); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 90 224; transform-box: fill-box; transform-origin: center; animation: sgrs-gira 1s linear infinite; }
+  @keyframes sgrs-gira { to { transform: rotate(360deg); } }
+  .sgrs .calc-titulo { font-size: 20px; font-weight: 800; margin-top: 18px; }
+  .sgrs .calc-msg { font-size: 14px; color: var(--texto-2); margin-top: 6px; min-height: 22px; }
+
+  /* Resultado: revelação em sequência */
+  .sgrs .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .2s, border-color .2s; transition-delay: var(--d, 0s); }
+  .sgrs .rv.in { opacity: 1; transform: none; }
+
+  /* Resultado: painel principal */
+  .sgrs .hero {
+    position: relative; overflow: hidden; border-radius: 18px; padding: 28px; color: #fff;
+    display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: center;
+    background: radial-gradient(120% 140% at 100% 0%, rgba(42,196,170,.35) 0%, rgba(42,196,170,0) 55%), linear-gradient(135deg, #00322f 0%, #005a54 60%, #00756d 100%);
+  }
+  .sgrs .hero::after {
+    content: ''; position: absolute; width: 260px; height: 260px; right: -80px; bottom: -120px; border-radius: 50%;
+    background: rgba(132,78,195,.38); filter: blur(50px); pointer-events: none; animation: sgrs-flutua 7s ease-in-out infinite alternate;
+  }
+  @keyframes sgrs-flutua { to { transform: translate(-30px, -24px) scale(1.15); } }
+  .sgrs .hero > * { position: relative; z-index: 1; }
+  .sgrs .anel { position: relative; width: 200px; height: 200px; }
+  .sgrs .anel svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .sgrs .anel .trilho { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 14; }
+  .sgrs .anel .prog { fill: none; stroke: var(--menta); stroke-width: 14; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(42,196,170,.55)); }
+  .sgrs .anel-txt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .sgrs .anel-txt strong { font-size: 52px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .sgrs .anel-txt small { font-size: 14px; opacity: .8; font-weight: 600; margin-top: 4px; }
+  .sgrs .hero-rot { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .8; display: block; }
+  .sgrs .nivel { display: inline-block; margin: 8px 0 10px; padding: 5px 14px; border-radius: 99px; font-size: 14px; font-weight: 800; color: #00241f; background: var(--menta); }
+  .sgrs .hero-texto { font-size: 15px; line-height: 1.55; opacity: .95; max-width: 46ch; }
+  .sgrs .escala { position: relative; display: flex; height: 8px; margin-top: 22px; }
+  .sgrs .escala i { display: block; height: 100%; }
+  .sgrs .escala i:nth-child(1) { background: #ff6b5e; border-radius: 99px 0 0 99px; }
+  .sgrs .escala i:nth-child(2) { background: #ff8200; }
+  .sgrs .escala i:nth-child(3) { background: #2ac4aa; }
+  .sgrs .escala i:nth-child(4) { background: #8ff0dc; border-radius: 0 99px 99px 0; }
+  .sgrs .escala-marca {
+    position: absolute; top: 50%; left: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 0 4px rgba(255,255,255,.25), 0 2px 8px rgba(0,0,0,.35); transition: left 1.6s cubic-bezier(.2,.8,.2,1);
+  }
+  .sgrs .escala-leg { display: flex; font-size: 11px; font-weight: 600; opacity: .8; margin-top: 10px; }
+  .sgrs .escala-leg span { text-align: center; }
+  .sgrs .hero-exp { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.18); padding-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .sgrs .hero-exp .pilula { background: var(--roxo); color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 5px 12px; border-radius: 99px; }
+  .sgrs .hero-exp strong { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+  .sgrs .hero-exp small { flex-basis: 100%; font-size: 12px; opacity: .75; }
+
+  /* Resultado: blocos */
+  .sgrs .bloco { margin-top: 22px; border: 1.5px solid var(--borda); border-radius: 16px; padding: 24px; background: #fff; }
+  .sgrs .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--verde); display: block; }
+  .sgrs .bloco-titulo { font-size: 20px; font-weight: 800; letter-spacing: -.01em; margin: 6px 0; }
+  .sgrs .bloco-sub { font-size: 14px; color: var(--texto-2); margin-bottom: 18px; }
+  .sgrs .mapa { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; align-items: center; margin-top: 14px; }
+  .sgrs .mapa svg { width: 100%; height: auto; display: block; }
+  .sgrs .rd-anel { fill: none; stroke: #dbe7e6; stroke-width: 1; }
+  .sgrs .rd-eixo { stroke: #e6eeee; stroke-width: 1; }
+  .sgrs .rd-area { fill: rgba(0,149,139,.22); stroke: var(--verde); stroke-width: 2.5; stroke-linejoin: round; }
+  .sgrs .rd-pt { stroke: #fff; stroke-width: 2; }
+  .sgrs .rd-txt { font-size: 12.5px; font-weight: 600; fill: var(--texto-2); }
+  .sgrs .rd-txt.fraco { fill: #c25f00; font-weight: 800; }
+  .sgrs .area-linha { margin-bottom: 14px; }
+  .sgrs .area-linha:last-child { margin-bottom: 0; }
+  .sgrs .area-linha .l { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .sgrs .area-linha .b { height: 8px; background: #e8f0f0; border-radius: 99px; overflow: hidden; }
+  .sgrs .area-linha .b > div { height: 100%; width: 0; border-radius: 99px; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+
+  /* Matriz de atenção x solução */
+  .sgrs .mx { display: flex; flex-direction: column; gap: 12px; }
+  .sgrs .mx-lin { display: grid; grid-template-columns: 190px 1fr 1fr; border: 1.5px solid var(--borda); border-radius: 14px; overflow: hidden; background: #fff; }
+  .sgrs .mx-lin:hover { box-shadow: 0 10px 28px rgba(0,60,56,.12); border-color: var(--menta); }
+  .sgrs .mx-area { padding: 16px 18px; background: var(--fundo-suave); border-right: 1.5px solid var(--borda); }
+  .sgrs .mx-status { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; background: var(--c); color: var(--t); }
+  .sgrs .mx-area h4 { margin: 10px 0 8px; font-size: 16px; font-weight: 800; }
+  .sgrs .mx-nota { display: flex; align-items: center; gap: 10px; }
+  .sgrs .mx-num { font-size: 26px; font-weight: 800; letter-spacing: -.02em; color: var(--n); line-height: 1; }
+  .sgrs .mx-barra { flex: 1; height: 6px; background: #e3ecec; border-radius: 99px; overflow: hidden; }
+  .sgrs .mx-barra i { display: block; height: 100%; width: 0; background: var(--c2); border-radius: 99px; transition: width 1s cubic-bezier(.2,.8,.2,1) .2s; }
+  .sgrs .mx-resp { padding: 16px 18px; }
+  .sgrs .mx-sol { position: relative; padding: 16px 18px 16px 32px; background: linear-gradient(90deg, rgba(42,196,170,.13), rgba(42,196,170,.04)); }
+  .sgrs .mx-sol::before {
+    content: '\2192'; position: absolute; left: -15px; top: 50%; margin-top: -15px; width: 30px; height: 30px; border-radius: 50%;
+    background: #fff; border: 1.5px solid var(--menta); color: var(--verde); font-weight: 800; display: flex; align-items: center; justify-content: center;
+  }
+  .sgrs .mx-rot { display: block; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin-bottom: 6px; }
+  .sgrs .mx-perg { font-size: 13px; color: var(--texto-2); margin-bottom: 8px; }
+  .sgrs .mx-r { font-size: 14px; border-left: 3px solid var(--laranja); padding-left: 10px; }
+  .sgrs .mx-r b { font-weight: 700; }
+  .sgrs .mx-sol h5 { margin: 0 0 4px; font-size: 15px; font-weight: 800; color: var(--verde); }
+  .sgrs .mx-sol p { font-size: 13.5px; line-height: 1.5; }
+  .sgrs .mx-mais { margin-top: 14px; }
+  .sgrs .fortes { margin-top: 16px; font-size: 13px; color: var(--texto-2); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .sgrs .fortes .ch { background: rgba(42,196,170,.16); color: #00605a; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+
+  /* Suíte GRS */
+  .sgrs .grs { margin-top: 22px; border-radius: 18px; padding: 28px; color: #fff; position: relative; overflow: hidden; background: linear-gradient(135deg, #00322f 0%, #004d48 100%); }
+  .sgrs .grs .eyebrow { color: var(--menta); }
+  .sgrs .grs h3 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; margin: 8px 0 10px; }
+  .sgrs .grs-p { font-size: 15px; line-height: 1.6; opacity: .92; max-width: 62ch; }
+  .sgrs .grs-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+  .sgrs .grs-chip { position: relative; border: 1.5px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); border-radius: 12px; padding: 14px; }
+  .sgrs .grs-chip b { display: block; font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+  .sgrs .grs-chip span { display: block; font-size: 12.5px; line-height: 1.45; opacity: .85; }
+  .sgrs .grs-chip.rec { border-color: var(--menta); background: rgba(42,196,170,.16); animation: sgrs-pulso 2.4s ease-out infinite; }
+  .sgrs .grs-chip .tag { display: inline-block; margin-bottom: 8px; background: var(--roxo); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; border-radius: 99px; opacity: 1; }
+  @keyframes sgrs-pulso { 0% { box-shadow: 0 0 0 0 rgba(42,196,170,.5); } 70%, 100% { box-shadow: 0 0 0 12px rgba(42,196,170,0); } }
+  .sgrs .grs-stat { margin-top: 22px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; border-top: 1px solid rgba(255,255,255,.18); padding-top: 18px; }
+  .sgrs .grs-stat strong { font-size: 32px; font-weight: 800; color: var(--menta); letter-spacing: -.02em; }
+  .sgrs .grs-stat span { font-size: 14px; opacity: .9; }
+
+  /* Fechamento */
+  .sgrs .cta { margin-top: 22px; background: linear-gradient(135deg, #00958b 0%, #00756d 100%); border-radius: 18px; padding: 32px 26px; text-align: center; color: #fff; }
+  .sgrs .cta-resumo { font-size: 14px; opacity: .92; max-width: 56ch; margin: 0 auto 12px; }
+  .sgrs .cta h3 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; margin: 0 auto 20px; max-width: 30ch; }
+  .sgrs .cta .btn { background: #fff; color: #00756d; padding: 15px 30px; font-size: 16px; animation: sgrs-pulso-b 2.6s ease-out infinite; }
+  .sgrs .cta .btn:hover { background: var(--fundo-suave); }
+  @keyframes sgrs-pulso-b { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.55); } 70%, 100% { box-shadow: 0 0 0 14px rgba(255,255,255,0); } }
+
+
+  /* Formulário */
+  .sgrs .form-nota { font-size: 12px; color: var(--texto-2); margin-top: 14px; }
+  .sgrs .form-nota a { color: var(--verde); }
+  .sgrs .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .sgrs .btn.carregando { opacity: .7; pointer-events: none; }
+  .sgrs .cta-fim { margin-top: 22px; text-align: center; padding: 24px 16px; border: 1.5px solid var(--borda); border-radius: 16px; background: var(--fundo-suave); }
+  .sgrs .cta-fim p { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+  .sgrs .cta-fim .btn { background: var(--verde); color: #fff; }
+  .sgrs .cta-fim .btn:hover { background: var(--verde-2); }
+
+  @media (max-width: 640px) {
+    .sgrs .grid { grid-template-columns: 1fr; }
+    .sgrs .acoes { flex-direction: column-reverse; }
+    .sgrs .btn { width: 100%; }
+    .sgrs .hero { grid-template-columns: 1fr; padding: 22px; text-align: center; }
+    .sgrs .anel { margin: 0 auto; }
+    .sgrs .hero-texto { margin: 0 auto; }
+    .sgrs .hero-exp { justify-content: center; text-align: center; }
+    .sgrs .mapa { grid-template-columns: 1fr; }
+    .sgrs .mx-lin { grid-template-columns: 1fr; }
+    .sgrs .mx-area { border-right: 0; border-bottom: 1.5px solid var(--borda); }
+    .sgrs .mx-sol { padding: 22px 18px 16px; }
+    .sgrs .mx-sol::before { left: 50%; top: -15px; margin: 0 0 0 -15px; transform: rotate(90deg); }
+    .sgrs .grs-chips { grid-template-columns: 1fr 1fr; }
+    .sgrs .bloco, .sgrs .grs { padding: 20px; }
+  }
+  @media (max-width: 420px) {
+    .sgrs .grs-chips { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sgrs .rv { opacity: 1; transform: none; transition: none; }
+    .sgrs *, .sgrs *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="sgrs" id="sgrs">
+
+  <!-- ETAPA 1: FORMULÁRIO -->
+  <section id="etapa-dados">
+    <form id="sgrs-form" novalidate autocomplete="on">
+      <div class="grid">
+        <div class="campo"><label for="f-nome">Nome</label><input id="f-nome" name="firstname" type="text" autocomplete="given-name"><span class="erro">Informe seu nome</span></div>
+        <div class="campo"><label for="f-sobrenome">Sobrenome</label><input id="f-sobrenome" name="lastname" type="text" autocomplete="family-name"><span class="erro">Informe seu sobrenome</span></div>
+        <div class="campo cheio"><label for="f-email">E-mail corporativo</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"><span class="erro">Informe um e-mail válido</span></div>
+        <div class="campo"><label for="f-tel">Telefone <span style="font-weight:400;color:var(--texto-2)">(opcional)</span></label><input id="f-tel" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><span class="erro">Telefone inválido</span></div>
+        <div class="campo"><label for="f-empresa">Empresa</label><input id="f-empresa" name="company" type="text" autocomplete="organization"><span class="erro">Informe a empresa</span></div>
+        <div class="campo"><label for="f-cargo">Cargo</label><input id="f-cargo" name="jobtitle" type="text" autocomplete="organization-title"><span class="erro">Informe seu cargo</span></div>
+        <div class="campo" data-campo="porte">
+          <label for="f-porte">Porte da empresa</label>
+          <select id="f-porte" name="porte">
+            <option value="">Selecione</option>
+            <option value="p">Até 200 funcionários</option>
+            <option value="m">200 a 1.000 funcionários</option>
+            <option value="g">Acima de 1.000 funcionários</option>
+          </select>
+          <span class="erro">Selecione o porte da empresa</span>
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Não preencha<input type="text" id="f-site" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="acoes fim"><button type="submit" class="btn btn-primario" id="btn-iniciar">Iniciar diagnóstico</button></div>
+      <p class="form-nota" id="form-nota">Ao continuar, você concorda com o tratamento dos seus dados conforme a <a id="lnk-priv" href="#" target="_blank" rel="noopener">Política de Privacidade</a> da Senior.</p>
+    </form>
+  </section>
+
+  <!-- ETAPA 2: DIAGNÓSTICO -->
+  <section id="etapa-diag" hidden>
+    <div class="topo-diag">
+      <span id="diag-area-n"></span>
+      <span id="diag-resp-n"></span>
+    </div>
+    <div class="barra"><div id="diag-barra"></div></div>
+    <div class="trilha" id="diag-trilha"></div>
+    <h2 class="area-titulo" id="diag-titulo"></h2>
+    <div id="diag-perguntas"></div>
+    <div class="acoes">
+      <button type="button" class="btn btn-secundario" id="btn-voltar">Voltar</button>
+      <button type="button" class="btn btn-primario" id="btn-proximo" disabled>Próxima área</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 2B: CÁLCULO (transição) -->
+  <section id="etapa-calculo" hidden>
+    <div class="calc" aria-live="polite">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trilho" cx="60" cy="60" r="50"></circle><circle class="giro" cx="60" cy="60" r="50"></circle></svg>
+      <p class="calc-titulo">Analisando as suas respostas</p>
+      <p class="calc-msg" id="calc-msg">Calculando a maturidade de cada área</p>
+    </div>
+  </section>
+
+  <!-- ETAPA 3: RESULTADO -->
+  <section id="etapa-resultado" hidden>
+
+    <div class="hero rv" id="sgrs-hero">
+      <div class="anel">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="trilho" cx="100" cy="100" r="84"></circle><circle class="prog" id="sgrs-anel" cx="100" cy="100" r="84"></circle></svg>
+        <div class="anel-txt"><strong id="res-score">0,0</strong><small>de 10</small></div>
+      </div>
+      <div>
+        <span class="hero-rot">Maturidade de segurança</span>
+        <span class="nivel" id="res-nivel"></span>
+        <p class="hero-texto" id="res-resumo"></p>
+        <div class="escala" aria-hidden="true"><i style="width:33.3%"></i><i style="width:27.8%"></i><i style="width:22.2%"></i><i style="width:16.7%"></i><span class="escala-marca" id="sgrs-marca"></span></div>
+        <div class="escala-leg" aria-hidden="true"><span style="width:33.3%">Vulnerável</span><span style="width:27.8%">Em desenvolvimento</span><span style="width:22.2%">Controlada</span><span style="width:16.7%">Blindada</span></div>
+      </div>
+      <div class="hero-exp">
+        <span class="pilula">Exposição estimada*</span>
+        <strong id="res-exposicao"></strong>
+        <small>*Estimativa por proxy estatístico. Os valores reais variam conforme setor e histórico da empresa.</small>
+      </div>
+    </div>
+
+    <div class="cta rv">
+      <p class="cta-resumo" id="cta-resumo"></p>
+      <h3 id="cta-pergunta"></h3>
+      <a class="btn" id="btn-cta" href="#" target="_top" rel="noopener">Sim, quero falar com um especialista</a>
+    </div>
+
+    <div class="bloco rv" id="sgrs-mapa">
+      <span class="eyebrow">Seu diagnóstico</span>
+      <h3 class="bloco-titulo">Maturidade por área</h3>
+      <div class="mapa">
+        <svg id="sgrs-radar" viewBox="30 10 400 310" role="img" aria-label="Gráfico de radar com a nota de cada área"></svg>
+        <div id="res-areas"></div>
+      </div>
+    </div>
+
+    <div class="bloco rv" id="sgrs-matriz" hidden>
+      <span class="eyebrow">Seu mapa de atenção</span>
+      <h3 class="bloco-titulo">Onde agir primeiro e como a Senior responde</h3>
+      <p class="bloco-sub">Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.</p>
+      <div class="mx" id="sgrs-mx"></div>
+      <button type="button" class="btn btn-secundario mx-mais" id="sgrs-mais" hidden>Mostrar as demais áreas</button>
+      <div class="fortes" id="sgrs-fortes"></div>
+    </div>
+
+    <div class="grs rv" id="sgrs-grs">
+      <span class="eyebrow">Senior Gestão de Riscos e Segurança</span>
+      <h3>Uma suíte conectada para cada ponto do seu diagnóstico</h3>
+      <p class="grs-p">A Gestão de Riscos e Segurança da Senior reúne soluções que se conectam: controle de acesso de pessoas e veículos, gestão de portarias, terceiros, rotinas e ocorrências, e a centralização dos sistemas de segurança no Security Hub. Você pode começar pela área mais crítica e ampliar com as demais soluções da suíte.</p>
+      <div class="grs-chips" id="sgrs-chips"></div>
+      <div class="grs-stat"><strong>+300 milhões</strong><span>de acessos gerenciados por mês</span></div>
+    </div>
+
+    <div class="cta-fim rv">
+      <p>Quer conversar sobre os pontos do seu diagnóstico?</p>
+      <a class="btn" id="btn-cta2" href="#" target="_top" rel="noopener">Sim, quero falar com um especialista</a>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  // ====== CONFIGURAÇÃO ======
+  // Troque pelo link de agendamento ou da página de contato antes de publicar no HubSpot.
+  var CTA_URL = '#';
+  // Política de Privacidade exibida no formulário (a validar com Jurídico/DPO).
+  var PRIVACIDADE_URL = '#';
+
+  // Envio dos dados ao HubSpot (Forms API, sem reCAPTCHA). Os nomes dos campos estão em HS_CAMPOS.
+  var HS = { portalId: '20786608', formId: '709f1dc0-abe1-42ac-b6d4-45ab5c840063' };
+  // Se o formulário do HubSpot exigir consentimento (LGPD), mude para true e ajuste o texto.
+  var HS_ENVIAR_CONSENTIMENTO = false;
+  // Opcional: URL do Web App do Google Apps Script que grava uma linha por diagnóstico em planilha. Vazio = desligado.
+  var WEBHOOK_URL = '';
+
+
+  // Base de exposição por porte (proxy, valores de referência da palestra). A validar com dados reais.
+  var BASE_EXPOSICAO = { p: 1200000, m: 7500000, g: 40000000 };
+  // Faixa mostrada ao usuário: do limite inferior (fator) até 100% do valor calculado.
+  var FATOR_INFERIOR = 0.6;
+
+  // Cada opção vale 1, 4, 7 ou 10 pontos (da menos madura para a mais madura).
+  var PONTOS = [1, 4, 7, 10];
+
+  var MODULOS = [
+    { id: 'acesso', label: 'Controle de Acesso', perguntas: [
+      { q: 'Neste momento, você sabe quem está dentro de cada uma das suas unidades?', o: [
+        'Não temos como saber',
+        'Só perguntando para a portaria ou para os responsáveis',
+        'Temos uma lista, mas ela pode estar desatualizada',
+        'Sim, em tempo real e com registro'
+      ]},
+      { q: 'Se for preciso apurar uma ocorrência, você consegue comprovar quem entrou em cada área e a que horas?', o: [
+        'Não, as entradas não são registradas',
+        'Há registro em papel ou planilha, difícil de consultar',
+        'Há registro digital, mas só de alguns locais ou de parte das pessoas',
+        'Sim, há registro digital de todas as entradas e a consulta é simples'
+      ]}
+    ]},
+    { id: 'portarias', label: 'Portarias', perguntas: [
+      { q: 'Como é feita a liberação de visitantes na portaria?', o: [
+        'Sem cadastro: a pessoa informa que vai entrar e entra',
+        'Cadastro em papel ou planilha, na hora da chegada',
+        'Cadastro digital, mas feito somente na chegada',
+        'Pré-cadastro digital, com liberação antes da chegada'
+      ]},
+      { q: 'O processo da portaria é o mesmo em todas as unidades e turnos?', o: [
+        'Não, cada unidade ou turno faz do seu jeito',
+        'Existe um padrão, mas ele depende de cada porteiro',
+        'Existe um padrão e é seguido na maioria dos casos, sem verificação',
+        'Sim, o padrão é o mesmo e o sistema garante que seja seguido'
+      ]}
+    ]},
+    { id: 'veiculos', label: 'Veículos', perguntas: [
+      { q: 'Como você confirma que um veículo tem autorização para entrar?', o: [
+        'Não há conferência',
+        'Conferência visual feita pela portaria',
+        'Conferência em lista ou planilha de veículos autorizados',
+        'Identificação automática, que libera somente veículos cadastrados'
+      ]},
+      { q: 'Você sabe quem é o responsável e o motivo de cada veículo que entra?', o: [
+        'Não',
+        'Só quando alguém pergunta na entrada',
+        'Sim, mas o registro é feito em papel ou planilha',
+        'Sim, o registro do veículo já traz o responsável e o motivo'
+      ]}
+    ]},
+    { id: 'remota', label: 'Gestão Remota', perguntas: [
+      { q: 'Se você precisar acompanhar os acessos de todas as unidades ao mesmo tempo, como faz?', o: [
+        'Não consigo: só quem está na unidade vê o que acontece',
+        'Peço relatórios para cada unidade',
+        'Vejo por sistema, mas de forma parcial ou com atraso',
+        'Vejo todas as unidades em um só lugar, em tempo real'
+      ]},
+      { q: 'Se um acesso precisa ser bloqueado com urgência, como isso é feito?', o: [
+        'Alguém precisa ir até o local',
+        'Aviso a unidade por telefone ou mensagem',
+        'Bloqueio pelo sistema, mas só em parte das unidades',
+        'Bloqueio na hora, à distância, em qualquer unidade'
+      ]}
+    ]},
+    { id: 'pessoas', label: 'Pessoas', perguntas: [
+      { q: 'Quando alguém é desligado da empresa, quando o acesso dessa pessoa é encerrado?', o: [
+        'Não há uma rotina para isso',
+        'Em dias ou semanas, quando alguém lembra',
+        'No mesmo dia, mas manualmente em cada local',
+        'No momento do desligamento, em todos os locais ao mesmo tempo'
+      ]},
+      { q: 'Cada pessoa só consegue entrar nos locais para os quais está autorizada?', o: [
+        'Não, a pessoa circula por onde quiser',
+        'Há uma regra, mas ela depende de fiscalização presencial',
+        'Há controle em alguns locais',
+        'Sim, o acesso de cada pessoa é liberado apenas para os locais autorizados'
+      ]},
+      { q: 'Você sabe quais terceiros estão na empresa hoje com documentação e treinamentos em dia?', o: [
+        'Não acompanhamos',
+        'Conferimos de vez em quando, de forma manual',
+        'Acompanhamos em planilha ou sistema, mas sem bloquear quem está irregular',
+        'Sim, e o acesso de quem está irregular é bloqueado automaticamente'
+      ]}
+    ]},
+    { id: 'internas', label: 'Áreas Internas', perguntas: [
+      { q: 'Você consegue identificar quem circulou por uma área que não faz parte da rotina daquela pessoa?', o: [
+        'Não',
+        'Só se alguém perceber e avisar',
+        'Só consultando registros manuais, depois do ocorrido',
+        'Sim, o sistema registra e permite consultar por pessoa e por área'
+      ]},
+      { q: 'Se um item some ou acontece um incidente, como você descobre o que houve?', o: [
+        'Não temos registros suficientes para descobrir',
+        'Com base no relato das pessoas',
+        'Com base em registros, mas levamos muito tempo para reunir',
+        'Consultamos os registros de acesso e temos a resposta rapidamente'
+      ]}
+    ]},
+    { id: 'restritas', label: 'Áreas Restritas', perguntas: [
+      { q: 'Nas áreas críticas, como é o controle de entrada e saída?', o: [
+        'Não é diferente do controle das demais áreas',
+        'Chave ou liberação por um responsável, sem registro',
+        'Controle com registro, mas só da entrada',
+        'Controle com registro de entrada e saída, por pessoa'
+      ]},
+      { q: 'Você é avisado quando alguém tenta entrar sem autorização ou permanece além do permitido?', o: [
+        'Não',
+        'Só descobrimos depois',
+        'Recebemos o aviso, mas não a tempo de agir',
+        'Sim, recebemos o aviso na hora'
+      ]}
+    ]},
+    { id: 'refeitorio', label: 'Refeitório', perguntas: [
+      { q: 'Como você sabe quem usa o refeitório e quantas refeições são servidas?', o: [
+        'Não controlamos',
+        'Contagem manual',
+        'Registro em lista ou planilha',
+        'Registro automático por colaborador, com consulta por período'
+      ]},
+      { q: 'Você consegue impedir o uso indevido do benefício, como uso duplicado ou por quem não tem direito?', o: [
+        'Não',
+        'Só por conferência visual',
+        'Identificamos depois, ao revisar os registros',
+        'Sim, o sistema bloqueia na hora'
+      ]}
+    ]}
+  ];
+
+  // Níveis e limite de alerta na escala de 1 a 10. A cor é a versão clara, usada sobre o painel escuro.
+  var NIVEIS = [
+    { max: 4,    nome: 'Vulnerável', cor: '#ff6b5e',
+      texto: 'Os processos de segurança dependem bastante de controle manual ou ainda não existem. Há muito a ganhar em visibilidade e rastreabilidade.' },
+    { max: 6.5,  nome: 'Em desenvolvimento', cor: '#ff8200',
+      texto: 'Já existem bases construídas, com lacunas entre áreas, locais ou registros. Conectar essas partes é o caminho para ganhar controle.' },
+    { max: 8.5,  nome: 'Controlada', cor: '#2ac4aa',
+      texto: 'A maior parte dos processos já tem registro e controle. Os ajustes finos estão em integrar e automatizar o que ainda é manual.' },
+    { max: 99,   nome: 'Blindada', cor: '#8ff0dc',
+      texto: 'A operação está bem estruturada. O próximo passo é manter tudo conectado e auditável conforme a empresa cresce.' }
+  ];
+  var LIMITE_CRITICO = 6.5;   // abaixo disso a área entra como ponto de atenção
+  var LIMITE_EM_DIA = 8.5;    // a partir disso a área é considerada em dia
+
+  // Nomes curtos para o gráfico de radar.
+  var AREA_CURTA = { acesso: 'Acesso', portarias: 'Portarias', veiculos: 'Veículos', remota: 'Remota', pessoas: 'Pessoas', internas: 'Internas', restritas: 'Restritas', refeitorio: 'Refeitório' };
+
+  // ====== SOLUÇÕES GRS ======
+  // Nomes e descrições conforme a página oficial de Gestão de Riscos e Segurança (site.senior.com.br).
+  // Refeitório: o mapeamento com a solução está a validar com Produto, por isso o texto não afirma capacidade.
+  var SOL = {
+    acesso:       { nome: 'Controle de Acesso',     texto: 'Monitora entradas e saídas de pessoas e veículos nas áreas críticas, com acompanhamento em tempo real e integração com os sistemas de segurança.' },
+    portarias:    { nome: 'Gestão de Portarias',    texto: 'Automatiza agendamentos e autorizações, reduz filas e traz rastreabilidade total aos acessos.' },
+    terceiros:    { nome: 'Gestão de Terceiros',    texto: 'Automatiza o controle de prestadores, documentos e acessos, com integração nativa ao Controle de Acesso, ao HCM e ao ERP Senior.' },
+    hub:          { nome: 'Security Hub',          texto: 'Centraliza os sistemas de segurança em uma única plataforma, com monitoramento em tempo real de controle de acesso, câmeras, alarmes e pontos eletrônicos.' },
+    ocorrencias:  { nome: 'Gestão de Ocorrências',  texto: 'Centraliza incidentes de segurança e operação, organiza e analisa registros de sensores, câmeras, acessos e rotinas e garante rastreabilidade.' },
+    rotinas:      { nome: 'Gestão de Rotinas',      texto: 'Padroniza operações com checklists digitais e monitoramento de não conformidades em tempo real.' },
+    especialista: { nome: 'Especialista Senior GRS', texto: 'Um especialista avalia, com você, como cobrir o controle de uso do refeitório na sua operação.' }
+  };
+  // Solução indicada por área, conforme a pergunta de menor nota (posição = índice da pergunta).
+  var AREA_SOL = {
+    acesso: ['acesso', 'acesso'],
+    portarias: ['portarias', 'portarias'],
+    veiculos: ['acesso', 'acesso'],
+    remota: ['hub', 'hub'],
+    pessoas: ['acesso', 'acesso', 'terceiros'],
+    internas: ['acesso', 'ocorrencias'],
+    restritas: ['acesso', 'hub'],
+    refeitorio: ['especialista', 'especialista']
+  };
+  // Cartões da suíte, na ordem de exibição.
+  var SUITE = [
+    ['acesso', 'Pessoas e veículos nas áreas críticas'],
+    ['portarias', 'Agendamentos e autorizações, com menos filas'],
+    ['terceiros', 'Prestadores, documentos e acessos em um só fluxo'],
+    ['rotinas', 'Checklists digitais e monitoramento em tempo real'],
+    ['hub', 'Sistemas de segurança em uma única plataforma'],
+    ['ocorrencias', 'Incidentes centralizados, com rastreabilidade']
+  ];
+
+
+  // ====== ESTADO ======
+  var dados = {};
+  var respostas = {};   // chave "m-q" -> 1..4
+  var modAtual = 0;
+
+  function $(id) { return document.getElementById(id); }
+  function key(m, q) { return m + '-' + q; }
+
+  // ====== ETAPA 1: FORMULÁRIO ======
+  var PORTES = { p: 'Até 200 funcionários', m: '200 a 1.000 funcionários', g: 'Acima de 1.000 funcionários' };
+  $('lnk-priv').setAttribute('href', PRIVACIDADE_URL);
+
+  function iniciarDiagnostico() {
+    mostrar('etapa-diag');
+    modAtual = 0;
+    renderDiag();
+    topo();
+  }
+
+  function cookie(nome) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + nome + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+
+  // Envia campos ao HubSpot pela Forms API. aoFim(true|false)
+  function hsEnviar(campos, aoFim) {
+    var lista = [];
+    Object.keys(campos).forEach(function (k) {
+      var v = campos[k];
+      if (v === undefined || v === null || v === '') return;
+      lista.push({ name: k, value: String(v) });
+    });
+    var ctx = { pageUri: location.href, pageName: document.title };
+    var hutk = cookie('hubspotutk');
+    if (hutk) ctx.hutk = hutk;
+    var corpo = { fields: lista, context: ctx };
+    if (HS_ENVIAR_CONSENTIMENTO) {
+      corpo.legalConsentOptions = { consent: { consentToProcess: true, text: 'Ao continuar, você concorda com o tratamento dos seus dados conforme a Política de Privacidade da Senior.' } };
+    }
+    try {
+      fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HS.portalId + '/' + HS.formId, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), keepalive: true
+      }).then(function (r) {
+        if (!r.ok) { try { console.warn('SGRS: HubSpot recusou o envio (' + r.status + ')'); } catch (e) {} }
+        if (aoFim) aoFim(r.ok);
+      }).catch(function () { if (aoFim) aoFim(false); });
+    } catch (e) { if (aoFim) aoFim(false); }
+  }
+
+  function webhookEnviar(obj) {
+    if (!WEBHOOK_URL) return;
+    try {
+      fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(obj), keepalive: true });
+    } catch (e) {}
+  }
+
+  function utms() {
+    var o = {};
+    try {
+      var p = new URLSearchParams(location.search);
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (p.get(k)) o[k] = p.get(k); });
+    } catch (e) {}
+    return o;
+  }
+
+  function mascaraTel(el) {
+    var d = el.value.replace(/\D/g, '').slice(0, 11), r = d;
+    if (d.length > 10) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+    else if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+    else if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    el.value = r;
+  }
+  $('f-tel').addEventListener('input', function () { mascaraTel(this); });
+
+  function validar() {
+    var ok = true;
+    function marca(id, valido) {
+      var campo = $(id).closest('.campo');
+      campo.classList.toggle('invalido', !valido);
+      if (!valido) ok = false;
+    }
+    ['f-nome', 'f-sobrenome', 'f-empresa', 'f-cargo'].forEach(function (id) { marca(id, $(id).value.trim().length > 1); });
+    marca('f-email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('f-email').value.trim()));
+    var tel = $('f-tel').value.replace(/\D/g, '');
+    marca('f-tel', tel === '' || tel.length >= 10);
+    marca('f-porte', !!$('f-porte').value);
+    return ok;
+  }
+
+  $('sgrs-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validar()) {
+      var primeiro = document.querySelector('#sgrs-form .invalido input, #sgrs-form .invalido select');
+      if (primeiro) primeiro.focus();
+      return;
+    }
+    dados.valores = {
+      firstname: $('f-nome').value.trim(), lastname: $('f-sobrenome').value.trim(),
+      email: $('f-email').value.trim(), phone: $('f-tel').value.trim(),
+      company: $('f-empresa').value.trim(), jobtitle: $('f-cargo').value.trim()
+    };
+    dados.porte = $('f-porte').value;
+    // Armadilha para robôs: se o campo escondido veio preenchido, segue sem enviar.
+    if (!$('f-site').value) {
+      hsEnviar(dados.valores);
+      var l = {}; Object.keys(dados.valores).forEach(function (k) { l[k] = dados.valores[k]; });
+      l.evento = 'lead_inicio'; l.porte = PORTES[dados.porte]; l.pageUri = location.href; l.referrer = document.referrer;
+      Object.keys(utms()).forEach(function (k) { l[k] = utms()[k]; });
+      webhookEnviar(l);
+    }
+    iniciarDiagnostico();
+  });
+
+  // ====== ETAPA 2 ======
+  function totalPerguntas() {
+    return MODULOS.reduce(function (s, m) { return s + m.perguntas.length; }, 0);
+  }
+  function respondidas() { return Object.keys(respostas).length; }
+
+  function moduloCompleto(i) {
+    return MODULOS[i].perguntas.every(function (_, q) { return respostas[key(i, q)]; });
+  }
+
+  function renderDiag() {
+    var m = MODULOS[modAtual];
+    $('diag-area-n').textContent = 'Área ' + (modAtual + 1) + ' de ' + MODULOS.length;
+    $('diag-resp-n').textContent = respondidas() + ' de ' + totalPerguntas() + ' respondidas';
+    $('diag-barra').style.width = (respondidas() / totalPerguntas() * 100) + '%';
+    $('diag-titulo').textContent = m.label;
+
+    var trilha = $('diag-trilha');
+    trilha.innerHTML = '';
+    MODULOS.forEach(function (_, i) {
+      var s = document.createElement('span');
+      s.textContent = i + 1;
+      if (i === modAtual) s.className = 'atual';
+      else if (moduloCompleto(i)) s.className = 'feito';
+      trilha.appendChild(s);
+    });
+
+    var box = $('diag-perguntas');
+    box.innerHTML = '';
+    m.perguntas.forEach(function (item, q) {
+      var div = document.createElement('div');
+      div.className = 'pergunta';
+      var p = document.createElement('p');
+      p.textContent = item.q;
+      div.appendChild(p);
+      var ops = document.createElement('div');
+      ops.className = 'opcoes';
+      ops.setAttribute('role', 'radiogroup');
+      item.o.forEach(function (texto, idx) {
+        var marcada = respostas[key(modAtual, q)] === PONTOS[idx];
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opcao' + (marcada ? ' sel' : '');
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', marcada ? 'true' : 'false');
+        var r = document.createElement('span');
+        r.className = 'r';
+        var t = document.createElement('span');
+        t.className = 't';
+        t.textContent = texto;
+        b.appendChild(r);
+        b.appendChild(t);
+        b.addEventListener('click', function () {
+          respostas[key(modAtual, q)] = PONTOS[idx];
+          renderDiag();
+        });
+        ops.appendChild(b);
+      });
+      div.appendChild(ops);
+      box.appendChild(div);
+    });
+
+    var ultimo = modAtual === MODULOS.length - 1;
+    var btn = $('btn-proximo');
+    btn.textContent = ultimo ? 'Ver resultado' : 'Próxima área';
+    btn.disabled = !moduloCompleto(modAtual);
+    $('btn-voltar').style.visibility = modAtual === 0 ? 'hidden' : 'visible';
+    avisarAltura();
+  }
+
+  $('btn-proximo').addEventListener('click', function () {
+    if (!moduloCompleto(modAtual)) return;
+    if (modAtual < MODULOS.length - 1) {
+      modAtual++;
+      renderDiag();
+      reiniciarEntrada($('etapa-diag'));
+      topo();
+    } else {
+      mostrar('etapa-calculo');
+      topo();
+      iniciarCalculo(function () {
+        renderResultado();
+        mostrar('etapa-resultado');
+        topo();
+        enviarLead();
+      });
+    }
+  });
+  $('btn-voltar').addEventListener('click', function () {
+    if (modAtual > 0) { modAtual--; renderDiag(); reiniciarEntrada($('etapa-diag')); topo(); }
+  });
+
+  // ====== CÁLCULO ======
+  function calcular() {
+    var porMod = {};
+    var soma = 0, n = 0;
+    MODULOS.forEach(function (m, i) {
+      var s = 0;
+      m.perguntas.forEach(function (_, q) { s += respostas[key(i, q)]; soma += respostas[key(i, q)]; n++; });
+      porMod[m.id] = s / m.perguntas.length;
+    });
+    var media = soma / n;
+    var nivel = NIVEIS.find(function (x) { return media < x.max; });
+    var base = BASE_EXPOSICAO[dados.porte];
+    var fracao = (10 - media) / 9;          // nota 10 = sem exposição; nota 1 = exposição total
+    var alto = base * fracao;
+    var baixo = alto * FATOR_INFERIOR;
+    return { porMod: porMod, media: media, nivel: nivel, baixo: baixo, alto: alto, porte: dados.porte };
+  }
+
+  function moeda(v) {
+    if (v >= 1000000) return 'R$ ' + (v / 1000000).toFixed(1).replace('.', ',') + ' mi';
+    return 'R$ ' + Math.round(v / 1000) + ' mil';
+  }
+
+  function nota(v) { return v.toFixed(1).replace('.', ','); }
+
+  // ====== ANIMAÇÃO ======
+  var REDUZIDO = false;
+  try { REDUZIDO = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+
+  // Executa fn(t) com t de 0 a 1 (suavizado) ao longo de ms; sem animação, vai direto ao valor final.
+  function animar(ms, fn, fim) {
+    if (REDUZIDO || !window.requestAnimationFrame) { fn(1); if (fim) fim(); return; }
+    var ini = null;
+    function passo(ts) {
+      if (ini === null) ini = ts;
+      var p = Math.min((ts - ini) / ms, 1);
+      fn(1 - Math.pow(1 - p, 3));
+      if (p < 1) window.requestAnimationFrame(passo); else if (fim) fim();
+    }
+    window.requestAnimationFrame(passo);
+  }
+
+  function revelar(el) {
+    if (el.classList.contains('in')) return;
+    el.classList.add('in');
+    if (typeof el._aoMostrar === 'function') el._aoMostrar();
+  }
+
+  function iniciarRevelacao() {
+    var els = Array.prototype.slice.call($('etapa-resultado').querySelectorAll('.rv'));
+    if (REDUZIDO || !('IntersectionObserver' in window)) { els.forEach(revelar); return; }
+    var io = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { revelar(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+    setTimeout(function () { els.forEach(revelar); }, 6000);   // garantia caso o observador não dispare
+  }
+
+  function reiniciarEntrada(el) {
+    el.classList.remove('entra');
+    void el.offsetWidth;
+    el.classList.add('entra');
+  }
+
+  function iniciarCalculo(aoFim) {
+    if (REDUZIDO) { aoFim(); return; }
+    var msgs = ['Calculando a maturidade de cada área', 'Cruzando as respostas com as soluções GRS', 'Montando o seu mapa de atenção'];
+    var i = 0;
+    $('calc-msg').textContent = msgs[0];
+    var t = setInterval(function () {
+      i++;
+      if (i < msgs.length) $('calc-msg').textContent = msgs[i];
+    }, 650);
+    setTimeout(function () { clearInterval(t); aoFim(); }, 1950);
+  }
+
+  // ====== ANÁLISE DO RESULTADO ======
+  function statusDe(v) {
+    if (v < 4) return { t: 'Prioridade alta', c: '#d93025', x: '#fff', fill: '#d93025', n: '#d93025' };
+    if (v < LIMITE_CRITICO) return { t: 'Atenção', c: '#ff8200', x: '#2b1700', fill: '#ff8200', n: '#d96f00' };
+    return { t: 'Evoluir', c: 'rgba(42,196,170,.24)', x: '#00605a', fill: '#2ac4aa', n: '#00877e' };
+  }
+
+  // Pior pergunta de cada área: guarda a resposta escolhida e a solução indicada.
+  function analisar(r) {
+    var lista = MODULOS.map(function (m, i) {
+      var pior = 0, menor = 99;
+      m.perguntas.forEach(function (_, q) {
+        var v = respostas[key(i, q)];
+        if (v < menor) { menor = v; pior = q; }
+      });
+      var idx = PONTOS.indexOf(respostas[key(i, pior)]);
+      var solId = AREA_SOL[m.id][pior] || AREA_SOL[m.id][0];
+      return { i: i, id: m.id, label: m.label, nota: r.porMod[m.id], pergunta: m.perguntas[pior].q, resposta: m.perguntas[pior].o[idx], solId: solId, sol: SOL[solId] };
+    });
+    lista.sort(function (a, b) { return a.nota - b.nota || a.i - b.i; });
+    var recomendadas = {};
+    lista.forEach(function (a) { if (a.nota < LIMITE_CRITICO && a.solId !== 'especialista') recomendadas[a.solId] = true; });
+    return {
+      lista: lista,
+      prioridades: lista.filter(function (a) { return a.nota < LIMITE_CRITICO; }),
+      mapa: lista.filter(function (a) { return a.nota < LIMITE_EM_DIA; }),
+      fortes: lista.filter(function (a) { return a.nota >= LIMITE_EM_DIA; }),
+      recomendadas: recomendadas
+    };
+  }
+
+  function juntar(itens) {
+    if (itens.length <= 1) return itens.join('');
+    return itens.slice(0, -1).join(', ') + ' e ' + itens[itens.length - 1];
+  }
+
+  // ====== RADAR ======
+  function criarRadar(r) {
+    var NS = 'http://www.w3.org/2000/svg', cx = 230, cy = 165, R = 110, n = MODULOS.length;
+    var svg = $('sgrs-radar');
+    svg.innerHTML = '';
+    function no(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      svg.appendChild(e);
+      return e;
+    }
+    function ang(i) { return -Math.PI / 2 + i * 2 * Math.PI / n; }
+    function pt(i, raio) { return [cx + raio * Math.cos(ang(i)), cy + raio * Math.sin(ang(i))]; }
+    function pts(raios) { return raios.map(function (rr, i) { return pt(i, rr).join(','); }).join(' '); }
+    [2.5, 5, 7.5, 10].forEach(function (v) {
+      no('polygon', { 'class': 'rd-anel', points: pts(MODULOS.map(function () { return R * v / 10; })) });
+    });
+    MODULOS.forEach(function (m, i) {
+      var p = pt(i, R), l = pt(i, R + 14), c = Math.cos(ang(i)), s = Math.sin(ang(i));
+      no('line', { 'class': 'rd-eixo', x1: cx, y1: cy, x2: p[0], y2: p[1] });
+      var t = no('text', {
+        'class': 'rd-txt' + (r.porMod[m.id] < LIMITE_CRITICO ? ' fraco' : ''),
+        x: l[0], y: l[1] + (s > 0.4 ? 10 : (s < -0.4 ? -2 : 4)),
+        'text-anchor': c > 0.3 ? 'start' : (c < -0.3 ? 'end' : 'middle')
+      });
+      t.textContent = AREA_CURTA[m.id];
+    });
+    var area = no('polygon', { 'class': 'rd-area', points: pts(MODULOS.map(function () { return 0; })) });
+    var pontos = MODULOS.map(function (m) {
+      return no('circle', { 'class': 'rd-pt', r: 4.5, cx: cx, cy: cy, fill: statusDe(r.porMod[m.id]).fill });
+    });
+    return function (t) {
+      var raios = MODULOS.map(function (m) { return R * (r.porMod[m.id] / 10) * t; });
+      area.setAttribute('points', pts(raios));
+      raios.forEach(function (rr, i) { var p = pt(i, rr); pontos[i].setAttribute('cx', p[0]); pontos[i].setAttribute('cy', p[1]); });
+    };
+  }
+
+  // ====== ETAPA 3 ======
+  function renderResultado() {
+    var r = calcular();
+    var a = analisar(r);
+    var C = 2 * Math.PI * 84;
+    var posMarca = Math.min(Math.max((r.media - 1) / 9 * 100, 0), 100);
+
+    // Painel principal
+    var nv = $('res-nivel');
+    nv.textContent = r.nivel.nome;
+    nv.style.background = r.nivel.cor;
+    $('res-resumo').textContent = r.nivel.texto;
+    var prog = $('sgrs-anel');
+    prog.style.stroke = r.nivel.cor;
+    prog.style.strokeDasharray = C;
+    prog.style.strokeDashoffset = C;
+    $('res-score').textContent = nota(0);
+    $('sgrs-marca').style.left = '0%';
+    var semExposicao = r.alto < 1000;
+    var sufixo = r.porte === 'g' ? '+' : '';
+    $('res-exposicao').textContent = semExposicao ? 'Baixa' : moeda(0) + ' a ' + moeda(0) + sufixo;
+    $('sgrs-hero')._aoMostrar = function () {
+      $('sgrs-marca').style.left = posMarca + '%';
+      animar(1700, function (t) {
+        $('res-score').textContent = nota(r.media * t);
+        prog.style.strokeDashoffset = C * (1 - (r.media / 10) * t);
+        if (!semExposicao) $('res-exposicao').textContent = moeda(r.baixo * t) + ' a ' + moeda(r.alto * t) + sufixo;
+      });
+    };
+
+    // Radar e barras
+    var atualizaRadar = criarRadar(r);
+    var areas = $('res-areas');
+    areas.innerHTML = '';
+    MODULOS.forEach(function (m) {
+      var v = r.porMod[m.id];
+      var div = document.createElement('div');
+      div.className = 'area-linha';
+      div.innerHTML = '<div class="l"><span>' + m.label + '</span><span style="color:' + statusDe(v).n + '">' + nota(v) + '</span></div>' +
+        '<div class="b"><div data-w="' + Math.max((v - 1) / 9 * 100, 4) + '" style="background:' + statusDe(v).fill + '"></div></div>';
+      areas.appendChild(div);
+    });
+    $('sgrs-mapa')._aoMostrar = function () {
+      animar(1300, atualizaRadar);
+      Array.prototype.forEach.call(areas.querySelectorAll('.b > div'), function (b, i) {
+        setTimeout(function () { b.style.width = b.getAttribute('data-w') + '%'; }, REDUZIDO ? 0 : 120 + i * 90);
+      });
+    };
+
+    // Matriz: áreas com espaço para evoluir x solução Senior
+    var matriz = $('sgrs-matriz');
+    var mx = $('sgrs-mx');
+    var mais = $('sgrs-mais');
+    mx.innerHTML = '';
+    matriz.hidden = a.mapa.length === 0;
+    mais.hidden = true;
+    var VISIVEIS = 4;
+    a.mapa.forEach(function (it, pos) {
+      var st = statusDe(it.nota);
+      var lin = document.createElement('article');
+      lin.className = 'mx-lin rv';
+      lin.style.setProperty('--d', (pos < VISIVEIS ? pos * 0.09 : 0) + 's');
+      lin.innerHTML =
+        '<div class="mx-area" style="--c:' + st.c + ';--t:' + st.x + ';--n:' + st.n + ';--c2:' + st.fill + '">' +
+          '<span class="mx-status">' + st.t + '</span>' +
+          '<h4>' + it.label + '</h4>' +
+          '<div class="mx-nota"><span class="mx-num">' + nota(it.nota) + '</span><span class="mx-barra"><i data-w="' + Math.max((it.nota - 1) / 9 * 100, 6) + '"></i></span></div>' +
+        '</div>' +
+        '<div class="mx-resp"><span class="mx-rot">O que o diagnóstico indica</span>' +
+          '<p class="mx-perg">' + it.pergunta + '</p>' +
+          '<p class="mx-r">Sua resposta: <b>' + it.resposta + '</b></p></div>' +
+        '<div class="mx-sol"><span class="mx-rot">Como a Senior responde</span>' +
+          '<h5>' + it.sol.nome + '</h5><p>' + it.sol.texto + '</p></div>';
+      lin._aoMostrar = function () {
+        var i = lin.querySelector('.mx-barra i');
+        setTimeout(function () { i.style.width = i.getAttribute('data-w') + '%'; }, REDUZIDO ? 0 : 50);
+      };
+      if (pos >= VISIVEIS) lin.hidden = true;
+      mx.appendChild(lin);
+    });
+    if (a.mapa.length > VISIVEIS) {
+      mais.hidden = false;
+      mais.textContent = 'Mostrar as demais áreas (' + (a.mapa.length - VISIVEIS) + ')';
+      mais.onclick = function () {
+        Array.prototype.forEach.call(mx.querySelectorAll('.mx-lin[hidden]'), function (l, i) {
+          l.hidden = false;
+          l.style.setProperty('--d', i * 0.08 + 's');
+          void l.offsetWidth;
+          revelar(l);
+        });
+        mais.hidden = true;
+        avisarAltura();
+      };
+    }
+    var fortes = $('sgrs-fortes');
+    fortes.innerHTML = a.fortes.length
+      ? '<span>Em dia:</span>' + a.fortes.map(function (f) { return '<span class="ch">&#10003; ' + f.label + '</span>'; }).join('')
+      : '';
+
+    // Suíte GRS com as soluções indicadas em destaque
+    var chips = $('sgrs-chips');
+    chips.innerHTML = SUITE.map(function (s) {
+      var rec = a.recomendadas[s[0]];
+      return '<div class="grs-chip' + (rec ? ' rec' : '') + '">' + (rec ? '<span class="tag">Indicada para você</span>' : '') +
+        '<b>' + SOL[s[0]].nome + '</b><span>' + s[1] + '</span></div>';
+    }).join('');
+
+    // Fechamento: resumo personalizado, pergunta e CTA que a responde
+    var nomes = a.prioridades.slice(0, 3).map(function (p) { return p.label; });
+    if (a.prioridades.length) {
+      var n = a.prioridades.length;
+      $('cta-resumo').textContent = 'Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nomes.join(', ') + ' e outras.' : juntar(nomes) + '.');
+      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior responde a esses pontos na sua operação?';
+    } else {
+      $('cta-resumo').textContent = 'Seu diagnóstico não indicou áreas abaixo de ' + nota(LIMITE_CRITICO) + ' de 10.';
+      $('cta-pergunta').textContent = 'Quer ver como manter todas as áreas conectadas e auditáveis conforme a operação cresce?';
+    }
+    $('btn-cta').setAttribute('href', CTA_URL);
+    $('btn-cta2').setAttribute('href', CTA_URL);
+
+    // Atraso escalonado para os blocos fixos
+    ['sgrs-mapa', 'sgrs-grs'].forEach(function (id) { $(id).style.setProperty('--d', '.05s'); });
+
+    iniciarRevelacao();
+    avisarAltura();
+    setTimeout(avisarAltura, 400);
+  }
+
+  // ====== INTEGRAÇÃO ======
+  // Ao concluir, envia o diagnóstico completo ao HubSpot (mesmo e-mail do início, atualiza o contato),
+  // à planilha (se WEBHOOK_URL estiver preenchido) e dispara o evento "sgrs:diagnostico" no documento e na página pai.
+  function enviarLead() {
+    var r = calcular();
+    var an = analisar(r);
+    var linhas = [], planos = {}, n = 0;
+    MODULOS.forEach(function (m, i) {
+      m.perguntas.forEach(function (p, q) {
+        n++;
+        var pts = respostas[key(i, q)];
+        var idx = PONTOS.indexOf(pts);
+        linhas.push(m.label + ' | P' + (q + 1) + ' | ' + p.q + ' | ' + p.o[idx] + ' (' + pts + ' pts)');
+        planos['q' + (n < 10 ? '0' : '') + n] = pts;
+      });
+    });
+    var prior = an.prioridades.map(function (x) { return x.label; });
+    var sols = Object.keys(an.recomendadas).map(function (k) { return SOL[k].nome; });
+
+    var hs = {
+      email: dados.valores.email, firstname: dados.valores.firstname, lastname: dados.valores.lastname,
+      company: dados.valores.company, jobtitle: dados.valores.jobtitle, phone: dados.valores.phone,
+      sgrs_porte: PORTES[dados.porte],
+      sgrs_nota: r.media.toFixed(1), sgrs_nivel: r.nivel.nome,
+      sgrs_exposicao_min: Math.round(r.baixo), sgrs_exposicao_max: Math.round(r.alto),
+      sgrs_areas_prioridade: prior.join('; '), sgrs_solucoes_indicadas: sols.join('; '),
+      sgrs_respostas: linhas.join('\n')
+    };
+    MODULOS.forEach(function (m) { hs['sgrs_nota_' + m.id] = r.porMod[m.id].toFixed(1); });
+
+    hsEnviar(hs, function (ok) {
+      if (ok) return;
+      // Plano B: se alguma propriedade ainda não existir no HubSpot, envia só o resumo no campo padrão "message".
+      hsEnviar({
+        email: dados.valores.email,
+        message: 'Diagnóstico GRS: nota ' + hs.sgrs_nota + ' (' + hs.sgrs_nivel + '). Porte: ' + hs.sgrs_porte + '. Prioridades: ' + hs.sgrs_areas_prioridade + '.\n' + hs.sgrs_respostas
+      });
+    });
+
+    var linha = { evento: 'diagnostico_completo', porte: hs.sgrs_porte, nota: hs.sgrs_nota, nivel: hs.sgrs_nivel,
+      exposicao_min: hs.sgrs_exposicao_min, exposicao_max: hs.sgrs_exposicao_max,
+      areas_prioridade: hs.sgrs_areas_prioridade, solucoes_indicadas: hs.sgrs_solucoes_indicadas,
+      respostas: hs.sgrs_respostas, pageUri: location.href, referrer: document.referrer };
+    Object.keys(dados.valores).forEach(function (k) { linha[k] = dados.valores[k]; });
+    MODULOS.forEach(function (m) { linha['nota_' + m.id] = hs['sgrs_nota_' + m.id]; });
+    Object.keys(planos).forEach(function (k) { linha[k] = planos[k]; });
+    Object.keys(utms()).forEach(function (k) { linha[k] = utms()[k]; });
+    webhookEnviar(linha);
+
+    var payload = {
+      formulario: dados.valores, porte: dados.porte,
+      maturidade: Number(r.media.toFixed(2)), nivel: r.nivel.nome,
+      exposicao_min: Math.round(r.baixo), exposicao_max: Math.round(r.alto),
+      areas: r.porMod, areas_prioridade: prior, solucoes_indicadas: sols, respostas: planos
+    };
+    try { document.dispatchEvent(new CustomEvent('sgrs:diagnostico', { detail: payload })); } catch (e) {}
+    try { window.parent.postMessage({ tipo: 'sgrs:diagnostico', payload: payload }, '*'); } catch (e) {}
+  }
+
+  // ====== UTILIDADES ======
+  function mostrar(id) {
+    ['etapa-dados', 'etapa-diag', 'etapa-calculo', 'etapa-resultado'].forEach(function (e) { $(e).hidden = e !== id; });
+  }
+  function topo() {
+    var el = $('sgrs');
+    if (el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function avisarAltura() {
+    try { window.parent.postMessage({ tipo: 'sgrs:altura', altura: document.documentElement.scrollHeight }, '*'); } catch (e) {}
+  }
+  window.addEventListener('load', avisarAltura);
+})();
+</script>

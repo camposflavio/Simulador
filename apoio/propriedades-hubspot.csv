@@ -1,0 +1,17 @@
+Rótulo,Nome interno,Tipo de campo,Observação
+SGRS Porte,sgrs_porte,Texto de uma linha,Porte informado no formulário
+SGRS Nota,sgrs_nota,Número,Nota geral de 1 a 10
+SGRS Nível,sgrs_nivel,Texto de uma linha,Vulnerável / Em desenvolvimento / Controlada / Blindada
+SGRS Exposição mínima,sgrs_exposicao_min,Número,Proxy estatístico
+SGRS Exposição máxima,sgrs_exposicao_max,Número,Proxy estatístico
+SGRS Áreas prioritárias,sgrs_areas_prioridade,Texto de várias linhas,Áreas com nota abaixo de 6.5
+SGRS Soluções indicadas,sgrs_solucoes_indicadas,Texto de várias linhas,Soluções GRS recomendadas pelo diagnóstico
+SGRS Respostas,sgrs_respostas,Texto de várias linhas,"Uma linha por pergunta: área, pergunta, resposta e pontos"
+SGRS Nota Controle de Acesso,sgrs_nota_acesso,Número,
+SGRS Nota Portarias,sgrs_nota_portarias,Número,
+SGRS Nota Veículos,sgrs_nota_veiculos,Número,
+SGRS Nota Gestão Remota,sgrs_nota_remota,Número,
+SGRS Nota Pessoas,sgrs_nota_pessoas,Número,
+SGRS Nota Áreas Internas,sgrs_nota_internas,Número,
+SGRS Nota Áreas Restritas,sgrs_nota_restritas,Número,
+SGRS Nota Refeitório,sgrs_nota_refeitorio,Número,
