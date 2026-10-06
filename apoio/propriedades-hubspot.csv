@@ -15,3 +15,5 @@ SGRS Nota Pessoas,sgrs_nota_pessoas,Número,
 SGRS Nota Áreas Internas,sgrs_nota_internas,Número,
 SGRS Nota Áreas Restritas,sgrs_nota_restritas,Número,
 SGRS Nota Refeitório,sgrs_nota_refeitorio,Número,
+SGRS Observações,sgrs_observacoes,Texto de várias linhas,Comentários livres opcionais (não pontuam)
+SGRS Faixa,sgrs_faixa,Texto de uma linha,Alerta (nota abaixo de 8) ou Madura (8 ou mais)

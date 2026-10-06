@@ -220,6 +220,55 @@
   @keyframes sgrs-pulso-b { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.55); } 70%, 100% { box-shadow: 0 0 0 14px rgba(255,255,255,0); } }
 
 
+
+  /* Capa */
+  .sgrs .capa {
+    position: relative; overflow: hidden; border-radius: 18px; padding: 34px 32px; color: #fff; margin-bottom: 26px;
+    display: grid; grid-template-columns: 1fr 220px; gap: 24px; align-items: center;
+    background: radial-gradient(120% 140% at 100% 0%, rgba(42,196,170,.38) 0%, rgba(42,196,170,0) 55%), linear-gradient(135deg, #00322f 0%, #005a54 60%, #00756d 100%);
+  }
+  .sgrs .capa::before { content: ''; position: absolute; width: 260px; height: 260px; left: -90px; bottom: -130px; border-radius: 50%; background: radial-gradient(closest-side, rgba(132,78,195,.45), rgba(132,78,195,0)); }
+  .sgrs .capa > * { position: relative; z-index: 1; }
+  .sgrs .capa-rot { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--menta); }
+  .sgrs .capa h2 { font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 10px 0 12px; max-width: 18ch; }
+  .sgrs .capa p { font-size: 15px; line-height: 1.55; opacity: .95; max-width: 46ch; }
+  .sgrs .capa-chips { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sgrs .capa-chips li { font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 99px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); opacity: 0; animation: sgrs-entra .5s ease both; }
+  .sgrs .capa-chips li:nth-child(1) { animation-delay: .1s } .sgrs .capa-chips li:nth-child(2) { animation-delay: .17s } .sgrs .capa-chips li:nth-child(3) { animation-delay: .24s } .sgrs .capa-chips li:nth-child(4) { animation-delay: .31s }
+  .sgrs .capa-chips li:nth-child(5) { animation-delay: .38s } .sgrs .capa-chips li:nth-child(6) { animation-delay: .45s } .sgrs .capa-chips li:nth-child(7) { animation-delay: .52s } .sgrs .capa-chips li:nth-child(8) { animation-delay: .59s }
+  .sgrs .capa-vis { display: flex; justify-content: center; }
+  .sgrs .cp-radar { width: 100%; max-width: 220px; height: auto; overflow: visible; }
+  .sgrs .cp-anel, .sgrs .cp-eixo { fill: none; stroke: rgba(255,255,255,.22); stroke-width: 1; }
+  .sgrs .cp-area { fill: rgba(42,196,170,.35); stroke: #2ac4aa; stroke-width: 2; stroke-linejoin: round; }
+  .sgrs .cp-pt { fill: #ff8200; stroke: #fff; stroke-width: 1.5; }
+  .sgrs .cp-pts { transform-origin: 110px 110px; animation: sgrs-cp-pulso 7s ease-in-out infinite; }
+  .sgrs .cp-varre { stroke: rgba(255,255,255,.55); stroke-width: 1.5; stroke-linecap: round; transform-origin: 110px 110px; animation: sgrs-cp-varre 6s linear infinite; }
+  @keyframes sgrs-cp-varre { to { transform: rotate(360deg); } }
+  @keyframes sgrs-cp-pulso { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+
+  /* Campo aberto opcional */
+  .sgrs .obs { margin-top: 10px; }
+  .sgrs .obs-toggle { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--verde); background: none; border: 0; padding: 4px 0; cursor: pointer; }
+  .sgrs .obs-toggle:hover { text-decoration: underline; }
+  .sgrs .obs textarea { font-family: inherit; font-size: 14px; color: var(--texto); width: 100%; resize: vertical; padding: 10px 12px; border: 1.5px solid var(--borda); border-radius: 8px; outline: none; }
+  .sgrs .obs textarea:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(0,149,139,.15); }
+  .sgrs .obs small { display: block; font-size: 12px; color: var(--texto-2); margin-top: 4px; }
+  .sgrs .mx-obs { font-size: 13px; color: var(--texto-2); margin-top: 10px; font-style: italic; word-break: break-word; }
+  .sgrs .mx-obs span { font-style: normal; font-weight: 700; color: var(--texto); }
+
+  /* Faixa (alerta x madura) e evolução */
+  .sgrs .faixa { display: inline-block; margin: 8px 0 10px 8px; padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; border: 1.5px solid; }
+  .sgrs .faixa.alerta { color: #ffd2a1; border-color: #ff8200; background: rgba(255,130,0,.16); }
+  .sgrs .faixa.ok { color: #b8f5e8; border-color: #2ac4aa; background: rgba(42,196,170,.18); }
+  .sgrs .evo { margin-top: 22px; }
+  .sgrs .evo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+  .sgrs .evo-card { border: 1.5px solid var(--borda); border-radius: 14px; padding: 18px; background: linear-gradient(180deg, #fff, var(--fundo-suave)); }
+  .sgrs .evo-n { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; align-items: center; justify-content: center; background: var(--roxo); color: #fff; font-size: 13px; font-weight: 800; }
+  .sgrs .evo-card h4 { margin: 12px 0 4px; font-size: 16px; font-weight: 800; }
+  .sgrs .evo-card b { display: block; font-size: 13px; color: var(--verde); margin-bottom: 6px; }
+  .sgrs .evo-card p { font-size: 13.5px; line-height: 1.5; color: var(--texto-2); }
+
   /* Formulário */
   .sgrs .form-nota { font-size: 12px; color: var(--texto-2); margin-top: 14px; }
   .sgrs .form-nota a { color: var(--verde); }
@@ -231,6 +280,14 @@
   .sgrs .cta-fim .btn:hover { background: var(--verde-2); }
 
   @media (max-width: 640px) {
+    .sgrs .evo-grid { grid-template-columns: 1fr; }
+    .sgrs .faixa { margin-left: 0; display: table; margin-left: auto; margin-right: auto; }
+    .sgrs .capa { grid-template-columns: 1fr; padding: 26px 22px; text-align: center; }
+    .sgrs .capa h2 { font-size: 25px; margin-left: auto; margin-right: auto; }
+    .sgrs .capa p { margin: 0 auto; }
+    .sgrs .capa-chips { justify-content: center; }
+    .sgrs .capa-vis { order: -1; }
+    .sgrs .cp-radar { max-width: 150px; }
     .sgrs .grid { grid-template-columns: 1fr; }
     .sgrs .acoes { flex-direction: column-reverse; }
     .sgrs .btn { width: 100%; }
@@ -259,6 +316,19 @@
 
   <!-- ETAPA 1: FORMULÁRIO -->
   <section id="etapa-dados">
+      <!-- CAPA -->
+    <div class="capa">
+      <div class="capa-txt">
+        <span class="capa-rot">Diagnóstico de segurança Senior</span>
+        <h2>Quão madura é a segurança da sua operação?</h2>
+        <p>Responda 17 perguntas sobre 8 áreas e receba, ao final, a sua nota de 1 a 10, um mapa de atenção por área e as soluções Senior que respondem a cada ponto.</p>
+        <ul class="capa-chips" aria-label="Áreas avaliadas">
+          <li>Controle de Acesso</li><li>Portarias</li><li>Veículos</li><li>Gestão Remota</li><li>Pessoas</li><li>Áreas Internas</li><li>Áreas Restritas</li><li>Refeitório</li>
+        </ul>
+      </div>
+      <div class="capa-vis"><svg class="cp-radar" viewBox="0 0 220 220" aria-hidden="true"><polygon class="cp-anel" points="110.0,87.5 125.9,94.1 132.5,110.0 125.9,125.9 110.0,132.5 94.1,125.9 87.5,110.0 94.1,94.1"/><polygon class="cp-anel" points="110.0,65.0 141.8,78.2 155.0,110.0 141.8,141.8 110.0,155.0 78.2,141.8 65.0,110.0 78.2,78.2"/><polygon class="cp-anel" points="110.0,42.5 157.7,62.3 177.5,110.0 157.7,157.7 110.0,177.5 62.3,157.7 42.5,110.0 62.3,62.3"/><polygon class="cp-anel" points="110.0,20.0 173.6,46.4 200.0,110.0 173.6,173.6 110.0,200.0 46.4,173.6 20.0,110.0 46.4,46.4"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="20.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="46.4"/><line class="cp-eixo" x1="110" y1="110" x2="200.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="200.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="20.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="46.4"/><polygon class="cp-area"><animate attributeName="points" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" keyTimes="0;.5;1" values="110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8;110.0,38.0 141.8,78.2 177.5,110.0 138.6,138.6 110.0,164.0 55.9,164.1 65.0,110.0 59.1,59.1;110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8"/></polygon><g class="cp-pts"><circle class="cp-pt" cx="110.0" cy="60.5" r="3.5"/><circle class="cp-pt" cx="160.9" cy="59.1" r="3.5"/><circle class="cp-pt" cx="146.0" cy="110.0" r="3.5"/><circle class="cp-pt" cx="154.5" cy="154.5" r="3.5"/><circle class="cp-pt" cx="110.0" cy="191.0" r="3.5"/><circle class="cp-pt" cx="78.2" cy="141.8" r="3.5"/><circle class="cp-pt" cx="42.5" cy="110.0" r="3.5"/><circle class="cp-pt" cx="71.8" cy="71.8" r="3.5"/></g><line class="cp-varre" x1="110" y1="110" x2="110" y2="20"/></svg></div>
+    </div>
+    <p class="grupo-titulo">Para começar, informe seus dados</p>
     <form id="sgrs-form" novalidate autocomplete="on">
       <div class="grid">
         <div class="campo"><label for="f-nome">Nome</label><input id="f-nome" name="firstname" type="text" autocomplete="given-name"><span class="erro">Informe seu nome</span></div>
@@ -319,7 +389,7 @@
       </div>
       <div>
         <span class="hero-rot">Maturidade de segurança</span>
-        <span class="nivel" id="res-nivel"></span>
+        <span class="nivel" id="res-nivel"></span><span class="faixa" id="res-faixa"></span>
         <p class="hero-texto" id="res-resumo"></p>
         <div class="escala" aria-hidden="true"><i style="width:33.3%"></i><i style="width:27.8%"></i><i style="width:22.2%"></i><i style="width:16.7%"></i><span class="escala-marca" id="sgrs-marca"></span></div>
         <div class="escala-leg" aria-hidden="true"><span style="width:33.3%">Vulnerável</span><span style="width:27.8%">Em desenvolvimento</span><span style="width:22.2%">Controlada</span><span style="width:16.7%">Blindada</span></div>
@@ -347,12 +417,19 @@
     </div>
 
     <div class="bloco rv" id="sgrs-matriz" hidden>
-      <span class="eyebrow">Seu mapa de atenção</span>
-      <h3 class="bloco-titulo">Onde agir primeiro e como a Senior responde</h3>
-      <p class="bloco-sub">Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.</p>
+      <span class="eyebrow" id="mx-eyebrow">Seu mapa de atenção</span>
+      <h3 class="bloco-titulo" id="mx-titulo">Onde agir primeiro e como a Senior responde</h3>
+      <p class="bloco-sub" id="mx-sub">Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.</p>
       <div class="mx" id="sgrs-mx"></div>
       <button type="button" class="btn btn-secundario mx-mais" id="sgrs-mais" hidden>Mostrar as demais áreas</button>
       <div class="fortes" id="sgrs-fortes"></div>
+    </div>
+
+    <div class="bloco evo rv" id="sgrs-evolucao" hidden>
+      <span class="eyebrow">Evolução contínua</span>
+      <h3 class="bloco-titulo">Maturidade alta também pode ir além</h3>
+      <p class="bloco-sub">Com os controles em bom nível, o próximo passo é conectar o que já existe e dar visão única à operação. Estas soluções da suíte atuam nesse ponto.</p>
+      <div class="evo-grid" id="sgrs-evo-grid"></div>
     </div>
 
     <div class="grs rv" id="sgrs-grs">
@@ -527,6 +604,7 @@
       texto: 'A operação está bem estruturada. O próximo passo é manter tudo conectado e auditável conforme a empresa cresce.' }
   ];
   var LIMITE_CRITICO = 6.5;   // abaixo disso a área entra como ponto de atenção
+  var LIMITE_MADURA = 8;      // nota geral a partir da qual a operação é tratada como madura (abaixo disso, sinal de alerta)
   var LIMITE_EM_DIA = 8.5;    // a partir disso a área é considerada em dia
 
   // Nomes curtos para o gráfico de radar.
@@ -568,7 +646,9 @@
 
   // ====== ESTADO ======
   var dados = {};
-  var respostas = {};   // chave "m-q" -> 1..4
+  var respostas = {};   // chave "m-q" -> pontos
+  var comentarios = {}; // chave "m-q" -> texto livre opcional (não pontua)
+  var obsAberta = {};   // controla quais campos abertos estão visíveis
   var modAtual = 0;
 
   function $(id) { return document.getElementById(id); }
@@ -738,6 +818,31 @@
         ops.appendChild(b);
       });
       div.appendChild(ops);
+
+      var kk = key(modAtual, q);
+      var obsBox = document.createElement('div');
+      obsBox.className = 'obs';
+      if (obsAberta[kk] || comentarios[kk]) {
+        var ta = document.createElement('textarea');
+        ta.rows = 2; ta.maxLength = 400; ta.value = comentarios[kk] || '';
+        ta.setAttribute('data-k', kk);
+        ta.setAttribute('aria-label', 'Comentário opcional sobre esta pergunta');
+        ta.placeholder = 'Conte mais sobre o seu cenário neste ponto (opcional)';
+        ta.addEventListener('input', function () { comentarios[kk] = ta.value; });
+        var nt = document.createElement('small');
+        nt.textContent = 'Este texto não altera a sua nota. Não inclua dados pessoais ou sensíveis.';
+        obsBox.appendChild(ta); obsBox.appendChild(nt);
+      } else {
+        var tg = document.createElement('button');
+        tg.type = 'button'; tg.className = 'obs-toggle'; tg.textContent = '+ Quer detalhar? (opcional)';
+        tg.addEventListener('click', function () {
+          obsAberta[kk] = true; renderDiag();
+          var t = document.querySelector('#diag-perguntas textarea[data-k="' + kk + '"]');
+          if (t) t.focus();
+        });
+        obsBox.appendChild(tg);
+      }
+      div.appendChild(obsBox);
       box.appendChild(div);
     });
 
@@ -866,16 +971,22 @@
       });
       var idx = PONTOS.indexOf(respostas[key(i, pior)]);
       var solId = AREA_SOL[m.id][pior] || AREA_SOL[m.id][0];
-      return { i: i, id: m.id, label: m.label, nota: r.porMod[m.id], pergunta: m.perguntas[pior].q, resposta: m.perguntas[pior].o[idx], solId: solId, sol: SOL[solId] };
+      return { i: i, q: pior, id: m.id, label: m.label, nota: r.porMod[m.id], pergunta: m.perguntas[pior].q, resposta: m.perguntas[pior].o[idx], solId: solId, sol: SOL[solId] };
     });
     lista.sort(function (a, b) { return a.nota - b.nota || a.i - b.i; });
+    var madura = r.media >= LIMITE_MADURA;
+    var mapa = madura ? lista.filter(function (a) { return a.nota < 10; }) : lista.filter(function (a) { return a.nota < LIMITE_EM_DIA; });
     var recomendadas = {};
-    lista.forEach(function (a) { if (a.nota < LIMITE_CRITICO && a.solId !== 'especialista') recomendadas[a.solId] = true; });
+    // Abaixo do limite: soluções das áreas críticas. Operação madura: soluções das 3 áreas com mais espaço para evoluir.
+    (madura ? mapa.slice(0, 3) : lista.filter(function (a) { return a.nota < LIMITE_CRITICO; })).forEach(function (a) {
+      if (a.solId !== 'especialista') recomendadas[a.solId] = true;
+    });
     return {
       lista: lista,
       prioridades: lista.filter(function (a) { return a.nota < LIMITE_CRITICO; }),
-      mapa: lista.filter(function (a) { return a.nota < LIMITE_EM_DIA; }),
-      fortes: lista.filter(function (a) { return a.nota >= LIMITE_EM_DIA; }),
+      mapa: mapa,
+      madura: madura,
+      fortes: lista.filter(function (a) { return madura ? a.nota >= 10 : a.nota >= LIMITE_EM_DIA; }),
       recomendadas: recomendadas
     };
   }
@@ -935,6 +1046,9 @@
     nv.textContent = r.nivel.nome;
     nv.style.background = r.nivel.cor;
     $('res-resumo').textContent = r.nivel.texto;
+    var fx = $('res-faixa');
+    fx.className = 'faixa ' + (a.madura ? 'ok' : 'alerta');
+    fx.textContent = a.madura ? 'Maturidade alta' : 'Sinal de alerta';
     var prog = $('sgrs-anel');
     prog.style.stroke = r.nivel.cor;
     prog.style.strokeDasharray = C;
@@ -980,8 +1094,19 @@
     matriz.hidden = a.mapa.length === 0;
     mais.hidden = true;
     var VISIVEIS = 4;
+    $('mx-eyebrow').textContent = a.madura ? 'Seu próximo nível' : 'Seu mapa de atenção';
+    $('mx-titulo').textContent = a.madura ? 'Onde ainda há espaço para evoluir' : 'Onde agir primeiro e como a Senior responde';
+    $('mx-sub').textContent = a.madura
+      ? 'Mesmo com a maturidade em um bom nível, algumas áreas ainda podem subir. Veja a sua resposta e a solução Senior que atua em cada ponto.'
+      : 'Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.';
     a.mapa.forEach(function (it, pos) {
       var st = statusDe(it.nota);
+      var coments = [];
+      MODULOS[it.i].perguntas.forEach(function (_, q) {
+        var t = (comentarios[key(it.i, q)] || '').trim();
+        if (t) coments.push('&ldquo;' + esc(cortar(t, 200)) + '&rdquo;');
+      });
+      var obsHtml = coments.length ? '<p class="mx-obs"><span>Você comentou:</span> ' + coments.join(' ') + '</p>' : '';
       var lin = document.createElement('article');
       lin.className = 'mx-lin rv';
       lin.style.setProperty('--d', (pos < VISIVEIS ? pos * 0.09 : 0) + 's');
@@ -993,7 +1118,7 @@
         '</div>' +
         '<div class="mx-resp"><span class="mx-rot">O que o diagnóstico indica</span>' +
           '<p class="mx-perg">' + it.pergunta + '</p>' +
-          '<p class="mx-r">Sua resposta: <b>' + it.resposta + '</b></p></div>' +
+          '<p class="mx-r">Sua resposta: <b>' + it.resposta + '</b></p>' + obsHtml + '</div>' +
         '<div class="mx-sol"><span class="mx-rot">Como a Senior responde</span>' +
           '<h5>' + it.sol.nome + '</h5><p>' + it.sol.texto + '</p></div>';
       lin._aoMostrar = function () {
@@ -1022,6 +1147,17 @@
       ? '<span>Em dia:</span>' + a.fortes.map(function (f) { return '<span class="ch">&#10003; ' + f.label + '</span>'; }).join('')
       : '';
 
+    // Operação madura: bloco de evolução
+    var evo = $('sgrs-evolucao');
+    evo.hidden = !a.madura;
+    $('sgrs-evo-grid').innerHTML = [
+      ['Centralize a operação', 'hub'],
+      ['Conecte terceiros ao restante', 'terceiros'],
+      ['Ganhe rastreabilidade de ponta a ponta', 'ocorrencias']
+    ].map(function (c, i) {
+      return '<div class="evo-card"><span class="evo-n">' + (i + 1) + '</span><h4>' + c[0] + '</h4><b>' + SOL[c[1]].nome + '</b><p>' + SOL[c[1]].texto + '</p></div>';
+    }).join('');
+
     // Suíte GRS com as soluções indicadas em destaque
     var chips = $('sgrs-chips');
     chips.innerHTML = SUITE.map(function (s) {
@@ -1032,19 +1168,21 @@
 
     // Fechamento: resumo personalizado, pergunta e CTA que a responde
     var nomes = a.prioridades.slice(0, 3).map(function (p) { return p.label; });
-    if (a.prioridades.length) {
-      var n = a.prioridades.length;
-      $('cta-resumo').textContent = 'Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nomes.join(', ') + ' e outras.' : juntar(nomes) + '.');
-      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior responde a esses pontos na sua operação?';
+    var alvo = a.prioridades.length ? a.prioridades : a.mapa;
+    if (a.madura) {
+      $('cta-resumo').textContent = 'Sua nota de ' + nota(r.media) + ' de 10 indica uma operação madura em segurança.';
+      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior ajuda a evoluir o que já funciona e a manter tudo conectado e auditável?';
     } else {
-      $('cta-resumo').textContent = 'Seu diagnóstico não indicou áreas abaixo de ' + nota(LIMITE_CRITICO) + ' de 10.';
-      $('cta-pergunta').textContent = 'Quer ver como manter todas as áreas conectadas e auditáveis conforme a operação cresce?';
+      var nn = alvo.slice(0, 3).map(function (p) { return p.label; });
+      var n = alvo.length;
+      $('cta-resumo').textContent = 'Nota abaixo de ' + LIMITE_MADURA + ' é sinal de alerta. Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nn.join(', ') + ' e outras.' : juntar(nn) + '.');
+      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior responde a esses pontos na sua operação?';
     }
     $('btn-cta').setAttribute('href', CTA_URL);
     $('btn-cta2').setAttribute('href', CTA_URL);
 
     // Atraso escalonado para os blocos fixos
-    ['sgrs-mapa', 'sgrs-grs'].forEach(function (id) { $(id).style.setProperty('--d', '.05s'); });
+    ['sgrs-mapa', 'sgrs-grs', 'sgrs-evolucao'].forEach(function (id) { $(id).style.setProperty('--d', '.05s'); });
 
     iniciarRevelacao();
     avisarAltura();
@@ -1057,14 +1195,16 @@
   function enviarLead() {
     var r = calcular();
     var an = analisar(r);
-    var linhas = [], planos = {}, n = 0;
+    var linhas = [], planos = {}, obsLinhas = [], obsCols = {}, n = 0;
     MODULOS.forEach(function (m, i) {
       m.perguntas.forEach(function (p, q) {
         n++;
         var pts = respostas[key(i, q)];
         var idx = PONTOS.indexOf(pts);
-        linhas.push(m.label + ' | P' + (q + 1) + ' | ' + p.q + ' | ' + p.o[idx] + ' (' + pts + ' pts)');
+        var cm = (comentarios[key(i, q)] || '').trim().replace(/\s+/g, ' ');
+        linhas.push(m.label + ' | P' + (q + 1) + ' | ' + p.q + ' | ' + p.o[idx] + ' (' + pts + ' pts)' + (cm ? ' | Comentário: ' + cm : ''));
         planos['q' + (n < 10 ? '0' : '') + n] = pts;
+        if (cm) { obsLinhas.push(m.label + ' P' + (q + 1) + ': ' + cm); obsCols['obs_q' + (n < 10 ? '0' : '') + n] = cm; }
       });
     });
     var prior = an.prioridades.map(function (x) { return x.label; });
@@ -1077,7 +1217,9 @@
       sgrs_nota: r.media.toFixed(1), sgrs_nivel: r.nivel.nome,
       sgrs_exposicao_min: Math.round(r.baixo), sgrs_exposicao_max: Math.round(r.alto),
       sgrs_areas_prioridade: prior.join('; '), sgrs_solucoes_indicadas: sols.join('; '),
-      sgrs_respostas: linhas.join('\n')
+      sgrs_respostas: linhas.join('\n'),
+      sgrs_observacoes: obsLinhas.join('\n'),
+      sgrs_faixa: an.madura ? 'Madura' : 'Alerta'
     };
     MODULOS.forEach(function (m) { hs['sgrs_nota_' + m.id] = r.porMod[m.id].toFixed(1); });
 
@@ -1097,6 +1239,8 @@
     Object.keys(dados.valores).forEach(function (k) { linha[k] = dados.valores[k]; });
     MODULOS.forEach(function (m) { linha['nota_' + m.id] = hs['sgrs_nota_' + m.id]; });
     Object.keys(planos).forEach(function (k) { linha[k] = planos[k]; });
+    Object.keys(obsCols).forEach(function (k) { linha[k] = obsCols[k]; });
+    linha.faixa = hs.sgrs_faixa; linha.observacoes = hs.sgrs_observacoes;
     Object.keys(utms()).forEach(function (k) { linha[k] = utms()[k]; });
     webhookEnviar(linha);
 
@@ -1104,13 +1248,15 @@
       formulario: dados.valores, porte: dados.porte,
       maturidade: Number(r.media.toFixed(2)), nivel: r.nivel.nome,
       exposicao_min: Math.round(r.baixo), exposicao_max: Math.round(r.alto),
-      areas: r.porMod, areas_prioridade: prior, solucoes_indicadas: sols, respostas: planos
+      areas: r.porMod, areas_prioridade: prior, solucoes_indicadas: sols, respostas: planos, observacoes: obsLinhas, faixa: hs.sgrs_faixa
     };
     try { document.dispatchEvent(new CustomEvent('sgrs:diagnostico', { detail: payload })); } catch (e) {}
     try { window.parent.postMessage({ tipo: 'sgrs:diagnostico', payload: payload }, '*'); } catch (e) {}
   }
 
   // ====== UTILIDADES ======
+  function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function cortar(t, n) { return t.length > n ? t.slice(0, n - 1).trim() + '…' : t; }
   function mostrar(id) {
     ['etapa-dados', 'etapa-diag', 'etapa-calculo', 'etapa-resultado'].forEach(function (e) { $(e).hidden = e !== id; });
   }
