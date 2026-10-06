@@ -1,0 +1,594 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  .sgrs, .sgrs * { box-sizing: border-box; }
+  .sgrs {
+    --verde: #00958b;
+    --verde-2: #00998f;
+    --menta: #2ac4aa;
+    --roxo: #844ec3;
+    --laranja: #ff8200;
+    --texto: #1d2b2a;
+    --texto-2: #5a6b6a;
+    --borda: #d9e4e3;
+    --fundo-suave: #f3f8f8;
+    --erro: #d93025;
+    font-family: 'Public Sans', Aptos, 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--texto);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 8px 0;
+    line-height: 1.5;
+  }
+  .sgrs h2, .sgrs h3, .sgrs p { margin: 0; }
+  .sgrs [hidden] { display: none !important; }
+
+  /* Campos */
+  .sgrs .grupo-titulo {
+    font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--verde); margin: 4px 0 14px;
+  }
+  .sgrs .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sgrs .campo { display: flex; flex-direction: column; }
+  .sgrs .campo.cheio { grid-column: 1 / -1; }
+  .sgrs label { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--texto); }
+  .sgrs input, .sgrs select {
+    font-family: inherit; font-size: 15px; color: var(--texto);
+    padding: 11px 14px; background: #fff;
+    border: 1.5px solid var(--borda); border-radius: 8px; outline: none; width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .sgrs input:focus, .sgrs select:focus {
+    border-color: var(--verde); box-shadow: 0 0 0 3px rgba(0,149,139,.15);
+  }
+  .sgrs .invalido input, .sgrs .invalido select { border-color: var(--erro); }
+  .sgrs .erro { font-size: 12px; color: var(--erro); margin-top: 4px; display: none; }
+  .sgrs .invalido .erro { display: block; }
+  .sgrs .separador { height: 1px; background: var(--borda); margin: 26px 0 22px; }
+
+  /* Botões */
+  .sgrs .btn {
+    font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+    padding: 13px 26px; border-radius: 8px; border: 1.5px solid transparent;
+    transition: background .15s, transform .05s, opacity .15s; text-decoration: none; display: inline-block; text-align: center;
+  }
+  .sgrs .btn:active { transform: translateY(1px); }
+  .sgrs .btn-primario { background: var(--verde); color: #fff; }
+  .sgrs .btn-primario:hover { background: var(--verde-2); }
+  .sgrs .btn-primario:disabled { background: #b8cfcd; cursor: not-allowed; }
+  .sgrs .btn-secundario { background: #fff; color: var(--verde); border-color: var(--verde); }
+  .sgrs .btn-secundario:hover { background: var(--fundo-suave); }
+  .sgrs .acoes { display: flex; gap: 12px; margin-top: 26px; justify-content: space-between; }
+  .sgrs .acoes.fim { justify-content: flex-end; }
+
+  /* Diagnóstico */
+  .sgrs .topo-diag { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 13px; color: var(--texto-2); font-weight: 600; }
+  .sgrs .barra { height: 6px; background: #e3eeed; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+  .sgrs .barra > div { height: 100%; background: linear-gradient(90deg, var(--verde), var(--menta)); border-radius: 99px; transition: width .3s; }
+  .sgrs .trilha { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+  .sgrs .trilha span {
+    width: 28px; height: 28px; border-radius: 50%; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    background: #eaf1f1; color: var(--texto-2);
+  }
+  .sgrs .trilha span.feito { background: var(--menta); color: #fff; }
+  .sgrs .trilha span.atual { background: var(--roxo); color: #fff; }
+  .sgrs .area-titulo { font-size: 22px; font-weight: 800; margin-bottom: 20px; letter-spacing: -.01em; }
+  .sgrs .pergunta { padding: 20px 0; border-top: 1px solid var(--borda); }
+  .sgrs .pergunta:first-of-type { border-top: 0; padding-top: 0; }
+  .sgrs .pergunta p { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .sgrs .opcoes { display: flex; flex-direction: column; gap: 8px; }
+  .sgrs .opcao {
+    font-family: inherit; cursor: pointer; text-align: left; width: 100%;
+    padding: 12px 14px; border-radius: 8px; border: 1.5px solid var(--borda); background: #fff;
+    display: flex; align-items: center; gap: 12px; transition: border-color .15s, background .15s;
+  }
+  .sgrs .opcao:hover { border-color: var(--menta); background: var(--fundo-suave); }
+  .sgrs .opcao .r {
+    flex: 0 0 18px; width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid var(--borda); background: #fff; transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .sgrs .opcao .t { font-size: 14px; font-weight: 500; color: var(--texto); line-height: 1.35; }
+  .sgrs .opcao.sel { border-color: var(--verde); background: rgba(42,196,170,.12); box-shadow: inset 0 0 0 1px var(--verde); }
+  .sgrs .opcao.sel .r { border-color: var(--verde); background: var(--verde); box-shadow: inset 0 0 0 3px #fff; }
+  .sgrs .opcao.sel .t { font-weight: 600; }
+
+  /* Resultado */
+  .sgrs .res-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .sgrs .card { border: 1.5px solid var(--borda); border-radius: 12px; padding: 22px; background: #fff; }
+  .sgrs .card .rotulo { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin-bottom: 8px; }
+  .sgrs .card .num { font-size: 40px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .sgrs .card .num small { font-size: 18px; color: var(--texto-2); font-weight: 600; }
+  .sgrs .card .nivel { display: inline-block; margin-top: 10px; padding: 4px 12px; border-radius: 99px; font-size: 13px; font-weight: 700; color: #fff; }
+  .sgrs .card.exposicao { border-color: var(--roxo); }
+  .sgrs .card.exposicao .num { color: var(--roxo); font-size: 30px; }
+  .sgrs .nota { font-size: 12px; color: var(--texto-2); margin-top: 10px; }
+  .sgrs .sub-titulo { font-size: 15px; font-weight: 800; margin: 0 0 14px; }
+  .sgrs .area-linha { margin-bottom: 14px; }
+  .sgrs .area-linha .l { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .sgrs .area-linha .b { height: 8px; background: #e8f0f0; border-radius: 99px; overflow: hidden; }
+  .sgrs .area-linha .b > div { height: 100%; border-radius: 99px; }
+  .sgrs .alerta {
+    margin-top: 24px; border: 1.5px solid var(--laranja); background: #fff6ec;
+    border-radius: 12px; padding: 18px 20px;
+  }
+  .sgrs .alerta .sub-titulo { color: #b35a00; margin-bottom: 10px; }
+  .sgrs .alerta li { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .sgrs .alerta ul { margin: 0; padding-left: 18px; }
+  .sgrs .cta { margin-top: 24px; background: var(--verde); border-radius: 12px; padding: 26px; text-align: center; color: #fff; }
+  .sgrs .cta h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .sgrs .cta p { font-size: 14px; opacity: .92; margin-bottom: 18px; }
+  .sgrs .cta .btn { background: #fff; color: var(--verde); }
+  .sgrs .cta .btn:hover { background: var(--fundo-suave); }
+
+  @media (max-width: 640px) {
+    .sgrs .grid, .sgrs .res-topo { grid-template-columns: 1fr; }
+    .sgrs .acoes { flex-direction: column-reverse; }
+    .sgrs .btn { width: 100%; }
+  }
+</style>
+
+<div class="sgrs" id="sgrs">
+  <div style="display:inline-block;background:#fff6ec;border:1px solid #ff8200;color:#b35a00;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;margin-bottom:16px;">VERSÃO DE TESTE, SEM FORMULÁRIO</div>
+
+  <!-- ETAPA 1: FORMULÁRIO HUBSPOT -->
+  <section id="etapa-dados" hidden>
+    <div id="sgrs-hs-form"></div>
+  </section>
+
+  <!-- ETAPA 1B: PORTE (só aparece se o porte não vier do formulário) -->
+  <section id="etapa-porte">
+    <div class="campo" data-campo="porte">
+      <label for="f-porte">Porte da empresa</label>
+      <select id="f-porte">
+        <option value="">Selecione</option>
+        <option value="p">Até 200 funcionários</option>
+        <option value="m">200 a 1.000 funcionários</option>
+        <option value="g">Acima de 1.000 funcionários</option>
+      </select>
+      <span class="erro">Selecione o porte da empresa</span>
+    </div>
+    <div class="acoes fim">
+      <button type="button" class="btn btn-primario" id="btn-porte">Iniciar diagnóstico</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 2: DIAGNÓSTICO -->
+  <section id="etapa-diag" hidden>
+    <div class="topo-diag">
+      <span id="diag-area-n"></span>
+      <span id="diag-resp-n"></span>
+    </div>
+    <div class="barra"><div id="diag-barra"></div></div>
+    <div class="trilha" id="diag-trilha"></div>
+    <h2 class="area-titulo" id="diag-titulo"></h2>
+    <div id="diag-perguntas"></div>
+    <div class="acoes">
+      <button type="button" class="btn btn-secundario" id="btn-voltar">Voltar</button>
+      <button type="button" class="btn btn-primario" id="btn-proximo" disabled>Próxima área</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 3: RESULTADO -->
+  <section id="etapa-resultado" hidden>
+    <div class="res-topo">
+      <div class="card">
+        <div class="rotulo">Maturidade geral</div>
+        <div class="num"><span id="res-score">0,0</span> <small>/ 10</small></div>
+        <span class="nivel" id="res-nivel"></span>
+      </div>
+      <div class="card exposicao">
+        <div class="rotulo">Exposição estimada*</div>
+        <div class="num" id="res-exposicao"></div>
+        <p class="nota">*Estimativa por proxy estatístico. Os valores reais variam conforme setor e histórico da empresa.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-titulo">Desempenho por área</h3>
+    <div id="res-areas"></div>
+
+    <div id="res-alerta"></div>
+
+    <div class="cta">
+      <h3>Fale com um especialista Senior GRS</h3>
+      <p>Nosso time analisa o seu diagnóstico e mostra como reduzir cada ponto de atenção.</p>
+      <a class="btn" id="btn-cta" href="#" target="_top" rel="noopener">Quero falar com um especialista</a>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  // ====== CONFIGURAÇÃO ======
+  // Troque pelo link de agendamento ou da página de contato antes de publicar no HubSpot.
+  var CTA_URL = '#';
+
+  // Base de exposição por porte (proxy, valores de referência da palestra). A validar com dados reais.
+  var BASE_EXPOSICAO = { p: 1200000, m: 7500000, g: 40000000 };
+  // Faixa mostrada ao usuário: do limite inferior (fator) até 100% do valor calculado.
+  var FATOR_INFERIOR = 0.6;
+
+  // Cada opção vale 1, 4, 7 ou 10 pontos (da menos madura para a mais madura).
+  var PONTOS = [1, 4, 7, 10];
+
+  var MODULOS = [
+    { id: 'acesso', label: 'Controle de Acesso', perguntas: [
+      { q: 'Neste momento, você sabe quem está dentro de cada uma das suas unidades?', o: [
+        'Não temos como saber',
+        'Só perguntando para a portaria ou para os responsáveis',
+        'Temos uma lista, mas ela pode estar desatualizada',
+        'Sim, em tempo real e com registro'
+      ]},
+      { q: 'Se for preciso apurar uma ocorrência, você consegue comprovar quem entrou em cada área e a que horas?', o: [
+        'Não, as entradas não são registradas',
+        'Há registro em papel ou planilha, difícil de consultar',
+        'Há registro digital, mas só de alguns locais ou de parte das pessoas',
+        'Sim, há registro digital de todas as entradas e a consulta é simples'
+      ]}
+    ]},
+    { id: 'portarias', label: 'Portarias', perguntas: [
+      { q: 'Como é feita a liberação de visitantes na portaria?', o: [
+        'Sem cadastro: a pessoa informa que vai entrar e entra',
+        'Cadastro em papel ou planilha, na hora da chegada',
+        'Cadastro digital, mas feito somente na chegada',
+        'Pré-cadastro digital, com liberação antes da chegada'
+      ]},
+      { q: 'O processo da portaria é o mesmo em todas as unidades e turnos?', o: [
+        'Não, cada unidade ou turno faz do seu jeito',
+        'Existe um padrão, mas ele depende de cada porteiro',
+        'Existe um padrão e é seguido na maioria dos casos, sem verificação',
+        'Sim, o padrão é o mesmo e o sistema garante que seja seguido'
+      ]}
+    ]},
+    { id: 'veiculos', label: 'Veículos', perguntas: [
+      { q: 'Como você confirma que um veículo tem autorização para entrar?', o: [
+        'Não há conferência',
+        'Conferência visual feita pela portaria',
+        'Conferência em lista ou planilha de veículos autorizados',
+        'Identificação automática, que libera somente veículos cadastrados'
+      ]},
+      { q: 'Você sabe quem é o responsável e o motivo de cada veículo que entra?', o: [
+        'Não',
+        'Só quando alguém pergunta na entrada',
+        'Sim, mas o registro é feito em papel ou planilha',
+        'Sim, o registro do veículo já traz o responsável e o motivo'
+      ]}
+    ]},
+    { id: 'remota', label: 'Gestão Remota', perguntas: [
+      { q: 'Se você precisar acompanhar os acessos de todas as unidades ao mesmo tempo, como faz?', o: [
+        'Não consigo: só quem está na unidade vê o que acontece',
+        'Peço relatórios para cada unidade',
+        'Vejo por sistema, mas de forma parcial ou com atraso',
+        'Vejo todas as unidades em um só lugar, em tempo real'
+      ]},
+      { q: 'Se um acesso precisa ser bloqueado com urgência, como isso é feito?', o: [
+        'Alguém precisa ir até o local',
+        'Aviso a unidade por telefone ou mensagem',
+        'Bloqueio pelo sistema, mas só em parte das unidades',
+        'Bloqueio na hora, à distância, em qualquer unidade'
+      ]}
+    ]},
+    { id: 'pessoas', label: 'Pessoas', perguntas: [
+      { q: 'Quando alguém é desligado da empresa, quando o acesso dessa pessoa é encerrado?', o: [
+        'Não há uma rotina para isso',
+        'Em dias ou semanas, quando alguém lembra',
+        'No mesmo dia, mas manualmente em cada local',
+        'No momento do desligamento, em todos os locais ao mesmo tempo'
+      ]},
+      { q: 'Cada pessoa só consegue entrar nos locais para os quais está autorizada?', o: [
+        'Não, a pessoa circula por onde quiser',
+        'Há uma regra, mas ela depende de fiscalização presencial',
+        'Há controle em alguns locais',
+        'Sim, o acesso de cada pessoa é liberado apenas para os locais autorizados'
+      ]},
+      { q: 'Você sabe quais terceiros estão na empresa hoje com documentação e treinamentos em dia?', o: [
+        'Não acompanhamos',
+        'Conferimos de vez em quando, de forma manual',
+        'Acompanhamos em planilha ou sistema, mas sem bloquear quem está irregular',
+        'Sim, e o acesso de quem está irregular é bloqueado automaticamente'
+      ]}
+    ]},
+    { id: 'internas', label: 'Áreas Internas', perguntas: [
+      { q: 'Você consegue identificar quem circulou por uma área que não faz parte da rotina daquela pessoa?', o: [
+        'Não',
+        'Só se alguém perceber e avisar',
+        'Só consultando registros manuais, depois do ocorrido',
+        'Sim, o sistema registra e permite consultar por pessoa e por área'
+      ]},
+      { q: 'Se um item some ou acontece um incidente, como você descobre o que houve?', o: [
+        'Não temos registros suficientes para descobrir',
+        'Com base no relato das pessoas',
+        'Com base em registros, mas levamos muito tempo para reunir',
+        'Consultamos os registros de acesso e temos a resposta rapidamente'
+      ]}
+    ]},
+    { id: 'restritas', label: 'Áreas Restritas', perguntas: [
+      { q: 'Nas áreas críticas, como é o controle de entrada e saída?', o: [
+        'Não é diferente do controle das demais áreas',
+        'Chave ou liberação por um responsável, sem registro',
+        'Controle com registro, mas só da entrada',
+        'Controle com registro de entrada e saída, por pessoa'
+      ]},
+      { q: 'Você é avisado quando alguém tenta entrar sem autorização ou permanece além do permitido?', o: [
+        'Não',
+        'Só descobrimos depois',
+        'Recebemos o aviso, mas não a tempo de agir',
+        'Sim, recebemos o aviso na hora'
+      ]}
+    ]},
+    { id: 'refeitorio', label: 'Refeitório', perguntas: [
+      { q: 'Como você sabe quem usa o refeitório e quantas refeições são servidas?', o: [
+        'Não controlamos',
+        'Contagem manual',
+        'Registro em lista ou planilha',
+        'Registro automático por colaborador, com consulta por período'
+      ]},
+      { q: 'Você consegue impedir o uso indevido do benefício, como uso duplicado ou por quem não tem direito?', o: [
+        'Não',
+        'Só por conferência visual',
+        'Identificamos depois, ao revisar os registros',
+        'Sim, o sistema bloqueia na hora'
+      ]}
+    ]}
+  ];
+
+  // Níveis e limite de alerta na escala de 1 a 10.
+  var NIVEIS = [
+    { max: 4,    nome: 'Vulnerável', cor: '#d93025' },
+    { max: 6.5,  nome: 'Em desenvolvimento', cor: '#ff8200' },
+    { max: 8.5,  nome: 'Controlada', cor: '#00998f' },
+    { max: 99,   nome: 'Blindada', cor: '#00958b' }
+  ];
+  var LIMITE_CRITICO = 6.5;
+
+
+  // ====== ESTADO ======
+  var dados = {};
+  var respostas = {};   // chave "m-q" -> 1..4
+  var modAtual = 0;
+
+  function $(id) { return document.getElementById(id); }
+  function key(m, q) { return m + '-' + q; }
+
+  // ====== ETAPA 1: FORMULÁRIO HUBSPOT ======
+  function iniciarDiagnostico() {
+    mostrar('etapa-diag');
+    modAtual = 0;
+    renderDiag();
+    topo();
+  }
+
+  // Tenta descobrir o porte a partir dos valores enviados no formulário.
+  function detectarPorte(valores) {
+    var textos = Object.keys(valores).map(function (k) { return String(valores[k]); });
+    for (var i = 0; i < textos.length; i++) {
+      var t = textos[i].toLowerCase();
+      if (/at[eé]\s*200/.test(t)) return 'p';
+      if (/200\s*(a|-|até)\s*1\.?000/.test(t)) return 'm';
+      if (/(acima|mais)\s*de\s*1\.?000/.test(t)) return 'g';
+    }
+    return '';
+  }
+
+  function aoEnviarFormulario(form, data) {
+    var bruto = (data && data.submissionValues) || {};
+    var valores = {};
+    if (Array.isArray(bruto)) {
+      bruto.forEach(function (c) { if (c && c.name) valores[c.name] = c.value; });
+    } else {
+      valores = bruto;
+    }
+    dados.valores = valores;
+    dados.porte = detectarPorte(valores);
+    if (dados.porte) iniciarDiagnostico();
+    else { mostrar('etapa-porte'); topo(); }
+  }
+
+  $('btn-porte').addEventListener('click', function () {
+    var v = $('f-porte').value;
+    var campo = document.querySelector('#etapa-porte [data-campo="porte"]');
+    campo.classList.toggle('invalido', !v);
+    if (!v) return;
+    dados.porte = v;
+    iniciarDiagnostico();
+  });
+
+  function criarFormulario() {
+    window.hbspt.forms.create({
+      portalId: '20786608',
+      formId: '709f1dc0-abe1-42ac-b6d4-45ab5c840063',
+      region: 'na1',
+      target: '#sgrs-hs-form',
+      onFormReady: avisarAltura,
+      onFormSubmitted: aoEnviarFormulario
+    });
+  }
+
+  // ====== ETAPA 2 ======
+  function totalPerguntas() {
+    return MODULOS.reduce(function (s, m) { return s + m.perguntas.length; }, 0);
+  }
+  function respondidas() { return Object.keys(respostas).length; }
+
+  function moduloCompleto(i) {
+    return MODULOS[i].perguntas.every(function (_, q) { return respostas[key(i, q)]; });
+  }
+
+  function renderDiag() {
+    var m = MODULOS[modAtual];
+    $('diag-area-n').textContent = 'Área ' + (modAtual + 1) + ' de ' + MODULOS.length;
+    $('diag-resp-n').textContent = respondidas() + ' de ' + totalPerguntas() + ' respondidas';
+    $('diag-barra').style.width = (respondidas() / totalPerguntas() * 100) + '%';
+    $('diag-titulo').textContent = m.label;
+
+    var trilha = $('diag-trilha');
+    trilha.innerHTML = '';
+    MODULOS.forEach(function (_, i) {
+      var s = document.createElement('span');
+      s.textContent = i + 1;
+      if (i === modAtual) s.className = 'atual';
+      else if (moduloCompleto(i)) s.className = 'feito';
+      trilha.appendChild(s);
+    });
+
+    var box = $('diag-perguntas');
+    box.innerHTML = '';
+    m.perguntas.forEach(function (item, q) {
+      var div = document.createElement('div');
+      div.className = 'pergunta';
+      var p = document.createElement('p');
+      p.textContent = item.q;
+      div.appendChild(p);
+      var ops = document.createElement('div');
+      ops.className = 'opcoes';
+      ops.setAttribute('role', 'radiogroup');
+      item.o.forEach(function (texto, idx) {
+        var marcada = respostas[key(modAtual, q)] === PONTOS[idx];
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opcao' + (marcada ? ' sel' : '');
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', marcada ? 'true' : 'false');
+        var r = document.createElement('span');
+        r.className = 'r';
+        var t = document.createElement('span');
+        t.className = 't';
+        t.textContent = texto;
+        b.appendChild(r);
+        b.appendChild(t);
+        b.addEventListener('click', function () {
+          respostas[key(modAtual, q)] = PONTOS[idx];
+          renderDiag();
+        });
+        ops.appendChild(b);
+      });
+      div.appendChild(ops);
+      box.appendChild(div);
+    });
+
+    var ultimo = modAtual === MODULOS.length - 1;
+    var btn = $('btn-proximo');
+    btn.textContent = ultimo ? 'Ver resultado' : 'Próxima área';
+    btn.disabled = !moduloCompleto(modAtual);
+    $('btn-voltar').style.visibility = modAtual === 0 ? 'hidden' : 'visible';
+    avisarAltura();
+  }
+
+  $('btn-proximo').addEventListener('click', function () {
+    if (!moduloCompleto(modAtual)) return;
+    if (modAtual < MODULOS.length - 1) {
+      modAtual++;
+      renderDiag();
+      topo();
+    } else {
+      renderResultado();
+      mostrar('etapa-resultado');
+      topo();
+      enviarLead();
+    }
+  });
+  $('btn-voltar').addEventListener('click', function () {
+    if (modAtual > 0) { modAtual--; renderDiag(); topo(); }
+  });
+
+  // ====== CÁLCULO ======
+  function calcular() {
+    var porMod = {};
+    var soma = 0, n = 0;
+    MODULOS.forEach(function (m, i) {
+      var s = 0;
+      m.perguntas.forEach(function (_, q) { s += respostas[key(i, q)]; soma += respostas[key(i, q)]; n++; });
+      porMod[m.id] = s / m.perguntas.length;
+    });
+    var media = soma / n;
+    var nivel = NIVEIS.find(function (x) { return media < x.max; });
+    var base = BASE_EXPOSICAO[dados.porte];
+    var fracao = (10 - media) / 9;          // nota 10 = sem exposição; nota 1 = exposição total
+    var alto = base * fracao;
+    var baixo = alto * FATOR_INFERIOR;
+    return { porMod: porMod, media: media, nivel: nivel, baixo: baixo, alto: alto, porte: dados.porte };
+  }
+
+  function moeda(v) {
+    if (v >= 1000000) return 'R$ ' + (v / 1000000).toFixed(1).replace('.', ',') + ' mi';
+    return 'R$ ' + Math.round(v / 1000) + ' mil';
+  }
+
+  function corNota(v) {
+    return v >= 8.5 ? '#00958b' : v >= LIMITE_CRITICO ? '#2ac4aa' : v >= 4 ? '#ff8200' : '#d93025';
+  }
+
+  function nota(v) { return v.toFixed(1).replace('.', ','); }
+
+  // ====== ETAPA 3 ======
+  function renderResultado() {
+    var r = calcular();
+    $('res-score').textContent = nota(r.media);
+    var nv = $('res-nivel');
+    nv.textContent = r.nivel.nome;
+    nv.style.background = r.nivel.cor;
+
+    if (r.alto < 1000) {
+      $('res-exposicao').textContent = 'Baixa';
+    } else {
+      $('res-exposicao').textContent = moeda(r.baixo) + ' a ' + moeda(r.alto) + (r.porte === 'g' ? '+' : '');
+    }
+
+    var areas = $('res-areas');
+    areas.innerHTML = '';
+    MODULOS.forEach(function (m) {
+      var v = r.porMod[m.id];
+      var pct = (v - 1) / 9 * 100;
+      var div = document.createElement('div');
+      div.className = 'area-linha';
+      div.innerHTML =
+        '<div class="l"><span>' + m.label + '</span><span style="color:' + corNota(v) + '">' + nota(v) + '</span></div>' +
+        '<div class="b"><div style="width:' + Math.max(pct, 4) + '%;background:' + corNota(v) + '"></div></div>';
+      areas.appendChild(div);
+    });
+
+    var criticas = MODULOS.filter(function (m) { return r.porMod[m.id] < LIMITE_CRITICO; });
+    var alerta = $('res-alerta');
+    if (criticas.length) {
+      alerta.innerHTML =
+        '<div class="alerta"><h3 class="sub-titulo">Áreas que pedem atenção</h3><ul>' +
+        criticas.map(function (m) { return '<li>' + m.label + ' (' + nota(r.porMod[m.id]) + ' de 10)</li>'; }).join('') +
+        '</ul></div>';
+    } else {
+      alerta.innerHTML = '';
+    }
+    $('btn-cta').setAttribute('href', CTA_URL);
+    avisarAltura();
+  }
+
+  // ====== INTEGRAÇÃO (HubSpot) ======
+  // Ao concluir, dispara um evento no documento e um postMessage para a página que hospeda o embed.
+  // O formulário/pixel do HubSpot pode escutar "sgrs:diagnostico" para enviar o lead.
+  function enviarLead() {
+    var r = calcular();
+    var payload = {
+      formulario: dados.valores || {}, porte: dados.porte,
+      maturidade: Number(r.media.toFixed(2)), nivel: r.nivel.nome,
+      exposicao_min: Math.round(r.baixo), exposicao_max: Math.round(r.alto),
+      areas: r.porMod
+    };
+    try { document.dispatchEvent(new CustomEvent('sgrs:diagnostico', { detail: payload })); } catch (e) {}
+    try { window.parent.postMessage({ tipo: 'sgrs:diagnostico', payload: payload }, '*'); } catch (e) {}
+  }
+
+  // ====== UTILIDADES ======
+  function mostrar(id) {
+    ['etapa-dados', 'etapa-porte', 'etapa-diag', 'etapa-resultado'].forEach(function (e) { $(e).hidden = e !== id; });
+  }
+  function topo() {
+    var el = $('sgrs');
+    if (el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function avisarAltura() {
+    try { window.parent.postMessage({ tipo: 'sgrs:altura', altura: document.documentElement.scrollHeight }, '*'); } catch (e) {}
+  }
+  window.addEventListener('load', avisarAltura);
+})();
+</script>
