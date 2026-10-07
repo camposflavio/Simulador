@@ -333,6 +333,7 @@
 
   .sgrs .lg-m { display: none; }
   @media (min-width: 641px) and (max-width: 860px) { .sgrs .grs-nums-grid { grid-template-columns: repeat(3, 1fr); } }
+  .sgrs .acoes.inicio { justify-content: flex-start; margin-top: 4px; }
   /* Capa: numeros e tempo medio */
   .sgrs .capa-meta { display: flex; flex-wrap: wrap; gap: 10px 30px; margin: 22px 0 0; }
   .sgrs .capa-meta div { display: flex; flex-direction: column; }
@@ -451,7 +452,31 @@
       </div>
       <div class="capa-vis"><svg class="cp-radar" viewBox="0 0 220 220" aria-hidden="true"><polygon class="cp-anel" points="110.0,87.5 125.9,94.1 132.5,110.0 125.9,125.9 110.0,132.5 94.1,125.9 87.5,110.0 94.1,94.1"/><polygon class="cp-anel" points="110.0,65.0 141.8,78.2 155.0,110.0 141.8,141.8 110.0,155.0 78.2,141.8 65.0,110.0 78.2,78.2"/><polygon class="cp-anel" points="110.0,42.5 157.7,62.3 177.5,110.0 157.7,157.7 110.0,177.5 62.3,157.7 42.5,110.0 62.3,62.3"/><polygon class="cp-anel" points="110.0,20.0 173.6,46.4 200.0,110.0 173.6,173.6 110.0,200.0 46.4,173.6 20.0,110.0 46.4,46.4"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="20.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="46.4"/><line class="cp-eixo" x1="110" y1="110" x2="200.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="200.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="20.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="46.4"/><polygon class="cp-area"><animate attributeName="points" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" keyTimes="0;.5;1" values="110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8;110.0,38.0 141.8,78.2 177.5,110.0 138.6,138.6 110.0,164.0 55.9,164.1 65.0,110.0 59.1,59.1;110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8"/></polygon><g class="cp-pts"><circle class="cp-pt" cx="110.0" cy="60.5" r="3.5"/><circle class="cp-pt" cx="160.9" cy="59.1" r="3.5"/><circle class="cp-pt" cx="146.0" cy="110.0" r="3.5"/><circle class="cp-pt" cx="154.5" cy="154.5" r="3.5"/><circle class="cp-pt" cx="110.0" cy="191.0" r="3.5"/><circle class="cp-pt" cx="78.2" cy="141.8" r="3.5"/><circle class="cp-pt" cx="42.5" cy="110.0" r="3.5"/><circle class="cp-pt" cx="71.8" cy="71.8" r="3.5"/></g><line class="cp-varre" x1="110" y1="110" x2="110" y2="20"/></svg></div>
     </div>
-    <p class="grupo-titulo">Para começar, informe seus dados</p>
+    <div class="acoes inicio"><button type="button" class="btn btn-primario" id="btn-iniciar">Começar diagnóstico</button></div>
+    <p class="form-nota">Sem cadastro para começar. Pedimos seus dados só no final, para liberar o resultado.</p>
+  </section>
+
+  <!-- ETAPA 2: DIAGNÓSTICO -->
+  <section id="etapa-diag" hidden>
+    <div class="topo-diag">
+      <span id="diag-area-n"></span>
+      <span id="diag-resp-n"></span>
+    </div>
+    <div class="barra"><div id="diag-barra"></div></div>
+    <div class="trilha" id="diag-trilha"></div>
+    <h2 class="area-titulo" id="diag-titulo"></h2>
+    <div id="diag-perguntas"></div>
+    <p class="aviso" id="diag-aviso" role="alert" hidden>Para gerar o seu diagnóstico, responda pelo menos 9 perguntas que se apliquem à sua operação. Revise as marcadas como "Não se aplica".</p>
+    <div class="acoes">
+      <button type="button" class="btn btn-secundario" id="btn-voltar">Voltar</button>
+      <button type="button" class="btn btn-primario" id="btn-proximo" disabled>Próxima área</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 2A: DADOS PARA LIBERAR O RESULTADO -->
+  <section id="etapa-form" hidden>
+    <h2 class="area-titulo">Seu diagnóstico está <span class="chev">pronto</span></h2>
+    <p class="bloco-sub">Informe seus dados para ver a sua nota, o mapa de atenção por área e como as soluções Senior resolvem cada ponto.</p>
     <form id="sgrs-form" novalidate autocomplete="on">
       <div class="grid">
         <div class="campo"><label for="f-nome">Nome</label><input id="f-nome" name="firstname" type="text" autocomplete="given-name"><span class="erro">Informe seu nome</span></div>
@@ -472,26 +497,9 @@
         </div>
       </div>
       <div class="hp" aria-hidden="true"><label>Não preencha<input type="text" id="f-site" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="acoes fim"><button type="submit" class="btn btn-primario" id="btn-iniciar">Iniciar diagnóstico</button></div>
+      <div class="acoes"><button type="button" class="btn btn-secundario" id="btn-voltar-form">Voltar</button><button type="submit" class="btn btn-primario" id="btn-resultado">Ver meu resultado</button></div>
       <p class="form-nota" id="form-nota">Ao continuar, você concorda com o tratamento dos seus dados conforme a <a id="lnk-priv" href="#" target="_blank" rel="noopener">Política de Privacidade</a> da Senior.</p>
     </form>
-  </section>
-
-  <!-- ETAPA 2: DIAGNÓSTICO -->
-  <section id="etapa-diag" hidden>
-    <div class="topo-diag">
-      <span id="diag-area-n"></span>
-      <span id="diag-resp-n"></span>
-    </div>
-    <div class="barra"><div id="diag-barra"></div></div>
-    <div class="trilha" id="diag-trilha"></div>
-    <h2 class="area-titulo" id="diag-titulo"></h2>
-    <div id="diag-perguntas"></div>
-    <p class="aviso" id="diag-aviso" role="alert" hidden>Para gerar o seu diagnóstico, responda pelo menos 9 perguntas que se apliquem à sua operação. Revise as marcadas como "Não se aplica".</p>
-    <div class="acoes">
-      <button type="button" class="btn btn-secundario" id="btn-voltar">Voltar</button>
-      <button type="button" class="btn btn-primario" id="btn-proximo" disabled>Próxima área</button>
-    </div>
   </section>
 
   <!-- ETAPA 2B: CÁLCULO (transição) -->
@@ -844,6 +852,11 @@
   $('lnk-priv').setAttribute('href', PRIVACIDADE_URL);
   $('capa-tempo').textContent = TEMPO_MEDIO;
 
+  $('btn-iniciar').addEventListener('click', function () { iniciarDiagnostico(); });
+  $('btn-voltar-form').addEventListener('click', function () {
+    modAtual = MODULOS.length - 1; mostrar('etapa-diag'); renderDiag(); reiniciarEntrada($('etapa-diag')); topo();
+  });
+
   function iniciarDiagnostico() {
     mostrar('etapa-diag');
     modAtual = 0;
@@ -934,15 +947,7 @@
       company: $('f-empresa').value.trim(), jobtitle: $('f-cargo').value.trim()
     };
     dados.porte = $('f-porte').value;
-    // Armadilha para robôs: se o campo escondido veio preenchido, segue sem enviar.
-    if (!$('f-site').value) {
-      hsEnviar(dados.valores);
-      var l = {}; Object.keys(dados.valores).forEach(function (k) { l[k] = dados.valores[k]; });
-      l.evento = 'lead_inicio'; l.porte = PORTES[dados.porte]; l.pageUri = location.href; l.referrer = document.referrer;
-      Object.keys(utms()).forEach(function (k) { l[k] = utms()[k]; });
-      webhookEnviar(l);
-    }
-    iniciarDiagnostico();
+    irParaResultado();
   });
 
   // ====== ETAPA 2 ======
@@ -1052,11 +1057,22 @@
 
     var ultimo = modAtual === MODULOS.length - 1;
     var btn = $('btn-proximo');
-    btn.textContent = editando ? 'Atualizar resultado' : (ultimo ? 'Ver resultado' : 'Próxima área');
+    btn.textContent = editando ? 'Atualizar resultado' : (ultimo ? (dados.valores ? 'Ver resultado' : 'Continuar') : 'Próxima área');
     $('diag-aviso').hidden = true;
     btn.disabled = !moduloCompleto(modAtual);
     $('btn-voltar').style.visibility = modAtual === 0 ? 'hidden' : 'visible';
     avisarAltura();
+  }
+
+  function irParaResultado() {
+    mostrar('etapa-calculo');
+    topo();
+    iniciarCalculo(function () {
+      renderResultado();
+      mostrar('etapa-resultado');
+      topo();
+      enviarLead();
+    });
   }
 
   $('btn-proximo').addEventListener('click', function () {
@@ -1069,14 +1085,7 @@
     } else {
       if (totalPontuadas() < MIN_PONTUADAS) { $('diag-aviso').hidden = false; avisarAltura(); return; }
       editando = false;
-      mostrar('etapa-calculo');
-      topo();
-      iniciarCalculo(function () {
-        renderResultado();
-        mostrar('etapa-resultado');
-        topo();
-        enviarLead();
-      });
+      if (dados.valores) { irParaResultado(); } else { mostrar('etapa-form'); topo(); avisarAltura(); }
     }
   });
   $('btn-voltar').addEventListener('click', function () {
@@ -1432,9 +1441,10 @@
   }
 
   // ====== INTEGRAÇÃO ======
-  // Ao concluir, envia o diagnóstico completo ao HubSpot (mesmo e-mail do início, atualiza o contato),
+  // Ao liberar o resultado, envia o diagnóstico completo ao HubSpot (um único envio; se a pessoa revisar as respostas, envia de novo e atualiza o contato),
   // à planilha (se WEBHOOK_URL estiver preenchido) e dispara o evento "sgrs:diagnostico" no documento e na página pai.
   function enviarLead() {
+    if ($('f-site').value) return;   // armadilha para robôs: campo escondido preenchido, não envia
     var r = calcular();
     var an = analisar(r);
     var linhas = [], planos = {}, obsLinhas = [], obsCols = {}, n = 0;
@@ -1501,7 +1511,7 @@
   function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function cortar(t, n) { return t.length > n ? t.slice(0, n - 1).trim() + '…' : t; }
   function mostrar(id) {
-    ['etapa-dados', 'etapa-diag', 'etapa-calculo', 'etapa-resultado'].forEach(function (e) { $(e).hidden = e !== id; });
+    ['etapa-dados', 'etapa-diag', 'etapa-form', 'etapa-calculo', 'etapa-resultado'].forEach(function (e) { $(e).hidden = e !== id; });
   }
   function topo() {
     var el = $('sgrs');
