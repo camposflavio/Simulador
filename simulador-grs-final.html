@@ -330,6 +330,7 @@
   .sgrs .capa p, .sgrs .hero-texto { font-weight: 400; }
 
   .sgrs .lg-m { display: none; }
+  @media (min-width: 641px) and (max-width: 860px) { .sgrs .grs-nums-grid { grid-template-columns: repeat(3, 1fr); } }
   /* Capa: numeros e tempo medio */
   .sgrs .capa-meta { display: flex; flex-wrap: wrap; gap: 10px 30px; margin: 22px 0 0; }
   .sgrs .capa-meta div { display: flex; flex-direction: column; }
@@ -355,6 +356,12 @@
   .sgrs .grs-big small { display: block; font-size: 11.5px; line-height: 1.35; opacity: .85; margin-top: 2px; }
   .sgrs .grs-chip .d { margin-bottom: 0; }
 
+  /* Numeros que comprovam resultados */
+  .sgrs .grs-nums { margin-top: 26px; border-top: 1px solid rgba(255,255,255,.2); padding-top: 22px; }
+  .sgrs .grs-nums h4 { margin: 0 0 18px; font-size: 20px; font-weight: 700; color: #fff; }
+  .sgrs .grs-nums-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px 16px; }
+  .sgrs .grs-nums-grid strong { display: block; font-size: 30px; font-weight: 700; line-height: 1.1; color: var(--neon); letter-spacing: -.01em; margin-bottom: 6px; }
+  .sgrs .grs-nums-grid span { display: block; font-size: 12.5px; line-height: 1.4; opacity: .92; }
   /* Como chegamos nos numeros (letra miuda) */
   .sgrs .metodo { margin-top: 22px; padding: 14px 16px; border: 1px solid var(--borda); background: var(--fundo-suave); color: var(--texto-2); font-size: 11.5px; line-height: 1.5; }
   .sgrs .metodo b { display: block; font-size: 11.5px; font-weight: 700; color: var(--azul); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em; }
@@ -408,6 +415,9 @@
     .sgrs .grs h3, .sgrs .cta h3 { font-size: 20px; }
     .sgrs .hero-exp strong { font-size: 24px; }
     .sgrs .grs-chip { padding: 16px 14px; }
+    .sgrs .grs-nums-grid { grid-template-columns: 1fr 1fr; }
+    .sgrs .grs-nums-grid div:last-child { grid-column: 1 / -1; }
+    .sgrs .grs-nums-grid strong { font-size: 26px; }
     .sgrs #etapa-diag .acoes { flex-direction: row; position: sticky; bottom: 0; z-index: 5; background: #fff; margin-top: 14px; padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -10px 14px -10px rgba(0,0,0,.18); }
     .sgrs #etapa-diag .acoes .btn { width: auto; flex: 1; padding-left: 12px; padding-right: 12px; }
     .sgrs #etapa-diag .acoes .btn-secundario { flex: 0 0 34%; }
@@ -549,7 +559,16 @@
       <h3>Uma suíte <span class="chev">conectada</span> para cada ponto do seu diagnóstico</h3>
       <p class="grs-p">A Gestão de Riscos e Segurança da Senior reúne soluções que se conectam: controle de acesso de pessoas e veículos, gestão de portarias, terceiros, rotinas e ocorrências, e a centralização dos sistemas de segurança no Security Hub. Você pode começar pela área mais crítica e ampliar com as demais soluções da suíte.</p>
       <div class="grs-chips" id="sgrs-chips"></div>
-      <div class="grs-stat"><strong>+1800</strong><span>clientes ativos e recorrentes, confiando na nossa solução</span></div>
+      <div class="grs-nums">
+        <h4>Números que comprovam resultados</h4>
+        <div class="grs-nums-grid">
+          <div><strong>+1800</strong><span>clientes ativos e recorrentes, confiando em nossa solução</span></div>
+          <div><strong>+2100</strong><span>portarias gerenciadas</span></div>
+          <div><strong>+10 mil</strong><span>documentos de terceiros gerenciados</span></div>
+          <div><strong>+300 mi</strong><span>de acessos gerenciados</span></div>
+          <div><strong>+1M</strong><span>checklists digitais aplicados, otimizando processos e reduzindo falhas</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="cta-fim rv">
@@ -590,13 +609,7 @@
   var TEMPO_MEDIO = '5 min';
   // Números de destaque por solução. Preencher com dados validados pelo Produto, ex.:
   // window.SGRS_BIG = { acesso: { n: '+X', t: 'descrição do número' }, portarias: {...}, terceiros: {...}, rotinas: {...}, hub: {...}, ocorrencias: {...} }
-  var BIG = window.SGRS_BIG || {
-    acesso:      { n: '+300 mi', t: 'de acessos gerenciados' },
-    portarias:   { n: '+2100', t: 'portarias gerenciadas' },
-    terceiros:   { n: '+10 mil', t: 'documentos de terceiros gerenciados' },
-    rotinas:     { n: '+1M', t: 'checklists digitais aplicados, otimizando processos e reduzindo falhas' }
-    // hub e ocorrencias: a validar com o Produto
-  };
+  var BIG = window.SGRS_BIG || {};
   var MIN_PONTUADAS = 9;
 
   // Cada opção vale 1, 4, 7 ou 10 pontos (da menos madura para a mais madura).
