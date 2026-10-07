@@ -277,6 +277,8 @@
   .sgrs .faixa { display: inline-block; margin: 8px 0 10px 8px; padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; border: 1.5px solid; }
   .sgrs .faixa.alerta { color: #ffd2a1; border-color: #f48205; background: rgba(244,130,5,.16); }
   .sgrs .faixa.ok { color: #b8f5e8; border-color: #44c4ab; background: rgba(68,196,171,.18); }
+  .sgrs .faixa.critico { color: #fff; border-color: #f2016a; background: rgba(242,1,106,.35); }
+  .sgrs .faixa.melhorar { color: #fff0b0; border-color: #f8c514; background: rgba(248,197,20,.18); }
   .sgrs .evo { margin-top: 22px; }
   .sgrs .evo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
   .sgrs .evo-card { border: 1.5px solid var(--borda); border-radius: 14px; padding: 18px; background: linear-gradient(180deg, #fff, var(--fundo-suave)); }
@@ -1164,6 +1166,14 @@
     };
   }
 
+  // Selo ao lado do nível: Crítico (Vulnerável), Sinal de alerta (Em desenvolvimento), Pode melhorar (Controlada abaixo de 8), Maturidade alta (8 ou mais).
+  function faixaDe(r, a) {
+    if (a.madura) return { cls: 'ok', txt: 'Maturidade alta', lead: 'Maturidade alta', hs: 'Madura' };
+    if (r.media < NIVEIS[0].max) return { cls: 'critico', txt: 'Crítico', hs: 'Crítico' };
+    if (r.media < NIVEIS[1].max) return { cls: 'alerta', txt: 'Sinal de alerta', hs: 'Alerta' };
+    return { cls: 'melhorar', txt: 'Pode melhorar', hs: 'Pode melhorar' };
+  }
+
   function juntar(itens) {
     if (itens.length <= 1) return itens.join('');
     return itens.slice(0, -1).join(', ') + ' e ' + itens[itens.length - 1];
@@ -1222,8 +1232,9 @@
     nv.style.color = r.nivel.txt || '#00241f';
     $('res-resumo').textContent = r.nivel.texto;
     var fx = $('res-faixa');
-    fx.className = 'faixa ' + (a.madura ? 'ok' : 'alerta');
-    fx.textContent = a.madura ? 'Maturidade alta' : 'Sinal de alerta';
+    var fz = faixaDe(r, a);
+    fx.className = 'faixa ' + fz.cls;
+    fx.textContent = fz.txt;
     var prog = $('sgrs-anel');
     prog.style.stroke = r.nivel.cor;
     prog.style.strokeDasharray = C;
@@ -1357,7 +1368,11 @@
     } else {
       var nn = alvo.slice(0, 3).map(function (p) { return p.label; });
       var n = alvo.length;
-      $('cta-resumo').textContent = 'Nota abaixo de ' + LIMITE_MADURA + ' é sinal de alerta. Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nn.join(', ') + ' e outras.' : juntar(nn) + '.');
+      var fzc = faixaDe(r, a);
+      var abre = fzc.cls === 'critico' ? 'Sua nota de ' + nota(r.media) + ' indica um nível crítico de segurança.'
+        : (fzc.cls === 'alerta' ? 'Nota abaixo de ' + nota(LIMITE_CRITICO) + ' é sinal de alerta.'
+        : 'Sua operação está controlada, mas ainda pode melhorar.');
+      $('cta-resumo').textContent = abre + ' Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nn.join(', ') + ' e outras.' : juntar(nn) + '.');
       $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior resolve esses pontos na sua operação?';
     }
     $('btn-cta').setAttribute('href', CTA_URL);
@@ -1369,7 +1384,7 @@
     var pct = Math.round(FATOR_INFERIOR * 100);
     $('metodo-txt').innerHTML =
       '<p>Cada resposta vale 1, 4, 7 ou 10 pontos, da menos para a mais madura. A nota de cada área é a média das respostas dela e a nota geral é a média de todas as respostas pontuadas. Perguntas marcadas como "não se aplica" ficam fora da conta. Os comentários livres não entram na nota.</p>' +
-      '<p>Níveis: Vulnerável (abaixo de ' + nota(NIVEIS[0].max) + '), Em desenvolvimento (de ' + nota(NIVEIS[0].max) + ' a abaixo de ' + nota(NIVEIS[1].max) + '), Controlada (de ' + nota(NIVEIS[1].max) + ' a abaixo de ' + nota(NIVEIS[2].max) + ') e Blindada (' + nota(NIVEIS[2].max) + ' ou mais). Nota geral abaixo de ' + LIMITE_MADURA + ' é tratada como sinal de alerta, e áreas abaixo de ' + nota(LIMITE_CRITICO) + ' entram como prioridade.</p>' +
+      '<p>Níveis: Vulnerável (abaixo de ' + nota(NIVEIS[0].max) + '), Em desenvolvimento (de ' + nota(NIVEIS[0].max) + ' a abaixo de ' + nota(NIVEIS[1].max) + '), Controlada (de ' + nota(NIVEIS[1].max) + ' a abaixo de ' + nota(NIVEIS[2].max) + ') e Blindada (' + nota(NIVEIS[2].max) + ' ou mais). Selo do resultado: Crítico (abaixo de ' + nota(NIVEIS[0].max) + '), Sinal de alerta (de ' + nota(NIVEIS[0].max) + ' a abaixo de ' + nota(NIVEIS[1].max) + '), Pode melhorar (de ' + nota(NIVEIS[1].max) + ' a abaixo de ' + LIMITE_MADURA + ') e Maturidade alta (' + LIMITE_MADURA + ' ou mais). Áreas abaixo de ' + nota(LIMITE_CRITICO) + ' entram como prioridade.</p>' +
       '<p>Exposição estimada: proxy estatístico calculado como valor de referência para o porte da empresa × (10 − nota geral) ÷ 9, mostrado de ' + pct + '% a 100% desse resultado. É uma ordem de grandeza para orientar a conversa, não uma previsão de perdas.' + (FONTE_EXPOSICAO ? ' Fonte do valor de referência: ' + esc(FONTE_EXPOSICAO) + '.' : '') + ' O diagnóstico reflete as respostas informadas e não substitui uma avaliação presencial.</p>';
 
     iniciarRevelacao();
@@ -1408,7 +1423,7 @@
       sgrs_areas_prioridade: prior.join('; '), sgrs_solucoes_indicadas: sols.join('; '),
       sgrs_respostas: linhas.join('\n'),
       sgrs_observacoes: obsLinhas.join('\n'),
-      sgrs_faixa: an.madura ? 'Madura' : 'Alerta'
+      sgrs_faixa: faixaDe(r, an).hs
     };
     MODULOS.forEach(function (m) { hs['sgrs_nota_' + m.id] = r.porMod[m.id] === undefined ? '' : r.porMod[m.id].toFixed(1); });
 
