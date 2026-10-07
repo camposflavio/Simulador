@@ -333,7 +333,8 @@
 
   .sgrs .lg-m { display: none; }
   @media (min-width: 641px) and (max-width: 860px) { .sgrs .grs-nums-grid { grid-template-columns: repeat(3, 1fr); } }
-  .sgrs .acoes.inicio { justify-content: flex-start; margin-top: 4px; }
+  .sgrs .acoes.inicio { justify-content: center; margin-top: 8px; }
+  .sgrs .acoes.inicio .btn { font-size: 18px; padding: 18px 48px; min-width: 300px; }
   /* Capa: numeros e tempo medio */
   .sgrs .capa-meta { display: flex; flex-wrap: wrap; gap: 10px 30px; margin: 22px 0 0; }
   .sgrs .capa-meta div { display: flex; flex-direction: column; }
@@ -411,6 +412,7 @@
     .sgrs .capa, .sgrs .hero, .sgrs .grs, .sgrs .cta, .sgrs .bloco, .sgrs .cta-fim { border-radius: 20px 0 20px 0; }
     .sgrs .capa-meta { justify-content: center; gap: 8px 22px; }
     .sgrs .capa::before { width: 80%; height: 40%; }
+    .sgrs .acoes.inicio .btn { width: 100%; min-width: 0; font-size: 17px; padding: 18px 20px; }
     .sgrs .rd-txt { font-size: 15px; }
     .sgrs .lg-c { display: none; }
     .sgrs .lg-m { display: inline; }
@@ -453,7 +455,6 @@
       <div class="capa-vis"><svg class="cp-radar" viewBox="0 0 220 220" aria-hidden="true"><polygon class="cp-anel" points="110.0,87.5 125.9,94.1 132.5,110.0 125.9,125.9 110.0,132.5 94.1,125.9 87.5,110.0 94.1,94.1"/><polygon class="cp-anel" points="110.0,65.0 141.8,78.2 155.0,110.0 141.8,141.8 110.0,155.0 78.2,141.8 65.0,110.0 78.2,78.2"/><polygon class="cp-anel" points="110.0,42.5 157.7,62.3 177.5,110.0 157.7,157.7 110.0,177.5 62.3,157.7 42.5,110.0 62.3,62.3"/><polygon class="cp-anel" points="110.0,20.0 173.6,46.4 200.0,110.0 173.6,173.6 110.0,200.0 46.4,173.6 20.0,110.0 46.4,46.4"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="20.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="46.4"/><line class="cp-eixo" x1="110" y1="110" x2="200.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="173.6" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="110.0" y2="200.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="173.6"/><line class="cp-eixo" x1="110" y1="110" x2="20.0" y2="110.0"/><line class="cp-eixo" x1="110" y1="110" x2="46.4" y2="46.4"/><polygon class="cp-area"><animate attributeName="points" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" keyTimes="0;.5;1" values="110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8;110.0,38.0 141.8,78.2 177.5,110.0 138.6,138.6 110.0,164.0 55.9,164.1 65.0,110.0 59.1,59.1;110.0,60.5 160.9,59.1 146.0,110.0 154.5,154.5 110.0,191.0 78.2,141.8 42.5,110.0 71.8,71.8"/></polygon><g class="cp-pts"><circle class="cp-pt" cx="110.0" cy="60.5" r="3.5"/><circle class="cp-pt" cx="160.9" cy="59.1" r="3.5"/><circle class="cp-pt" cx="146.0" cy="110.0" r="3.5"/><circle class="cp-pt" cx="154.5" cy="154.5" r="3.5"/><circle class="cp-pt" cx="110.0" cy="191.0" r="3.5"/><circle class="cp-pt" cx="78.2" cy="141.8" r="3.5"/><circle class="cp-pt" cx="42.5" cy="110.0" r="3.5"/><circle class="cp-pt" cx="71.8" cy="71.8" r="3.5"/></g><line class="cp-varre" x1="110" y1="110" x2="110" y2="20"/></svg></div>
     </div>
     <div class="acoes inicio"><button type="button" class="btn btn-primario" id="btn-iniciar">Começar diagnóstico</button></div>
-    <p class="form-nota">Sem cadastro para começar. Pedimos seus dados só no final, para liberar o resultado.</p>
   </section>
 
   <!-- ETAPA 2: DIAGNÓSTICO -->
