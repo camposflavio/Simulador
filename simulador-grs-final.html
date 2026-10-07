@@ -779,6 +779,44 @@
     restritas: ['acesso', 'hub'],
     refeitorio: ['especialista', 'especialista']
   };
+
+  // "Como a Senior resolve" por pergunta: solução (s) e texto (x) escritos para a dor da própria pergunta.
+  // Textos baseados na descrição oficial das soluções e na integração Controle de Acesso x HCM. A validar com Produto.
+  var RESOLVE = {
+    acesso: [
+      { s: 'acesso', x: 'O Controle de Acesso registra cada entrada e saída de pessoas e veículos e mostra, em tempo real, quem está em cada unidade, no lugar de listas que ficam desatualizadas.' },
+      { s: 'acesso', x: 'Cada passagem fica registrada digitalmente, com pessoa, local e horário. Para apurar uma ocorrência, o histórico já está no sistema e a consulta é simples.' }
+    ],
+    portarias: [
+      { s: 'portarias', x: 'A Gestão de Portarias automatiza agendamentos e autorizações: o visitante chega com a liberação pronta, há menos fila na entrada e cada acesso fica rastreável.' },
+      { s: 'portarias', x: 'O fluxo de autorização passa a ser o do sistema, o mesmo em todas as unidades e turnos, e deixa de depender do jeito de cada porteiro.' }
+    ],
+    veiculos: [
+      { s: 'acesso', x: 'O Controle de Acesso trata pessoas e veículos na mesma solução: o veículo é cadastrado e a entrada passa a ser conferida e registrada pelo sistema, não só pela conferência visual da portaria.' },
+      { s: 'acesso', x: 'O registro de acesso do veículo fica ligado à pessoa responsável, e o histórico de entradas e saídas fica disponível para consulta, sem papel ou planilha.' }
+    ],
+    remota: [
+      { s: 'hub', x: 'O Security Hub centraliza os sistemas de segurança em uma única plataforma, com monitoramento em tempo real de controle de acesso, câmeras, alarmes e pontos eletrônicos de todas as unidades.' },
+      { s: 'hub', x: 'Com a operação centralizada no Security Hub, a equipe de segurança enxerga o que acontece em cada unidade e responde mais rápido, sem esperar relatório ou telefonema.' }
+    ],
+    pessoas: [
+      { s: 'acesso', x: 'O Controle de Acesso se integra ao HCM: férias, afastamentos e desligamentos registrados no RH são sinalizados no controle de acesso, sem depender de aviso manual entre RH e segurança.' },
+      { s: 'acesso', x: 'O acesso é definido por pessoa e por local, e cada passagem é registrada. A integração com o HCM mantém esse cadastro alinhado a admissões, férias, afastamentos e desligamentos.' },
+      { s: 'terceiros', x: 'A Gestão de Terceiros automatiza o controle de prestadores, documentos e acessos, com integração nativa ao Controle de Acesso, ao HCM e ao ERP Senior, para saber quem está na empresa e com a documentação em dia.' }
+    ],
+    internas: [
+      { s: 'acesso', x: 'Cada passagem fica registrada e pode ser consultada por pessoa e por área, então quem circulou fora da rotina aparece no histórico, sem depender de alguém perceber e avisar.' },
+      { s: 'ocorrencias', x: 'A Gestão de Ocorrências centraliza os incidentes e organiza os registros de sensores, câmeras, acessos e rotinas, e a rastreabilidade encurta o caminho entre o que aconteceu e a resposta.' }
+    ],
+    restritas: [
+      { s: 'acesso', x: 'O Controle de Acesso registra entradas e saídas por pessoa nas áreas críticas, com acompanhamento em tempo real, e não só a liberação por chave ou por um responsável.' },
+      { s: 'hub', x: 'O Security Hub reúne acessos, câmeras e alarmes em um só lugar, com monitoramento em tempo real, para que a tentativa de entrada indevida seja vista na hora e não só depois.' }
+    ],
+    refeitorio: [
+      { s: 'especialista', x: 'Um especialista Senior GRS avalia com você como registrar quem usa o refeitório e quantas refeições são servidas na sua operação.' },
+      { s: 'especialista', x: 'Um especialista Senior GRS avalia com você como evitar o uso duplicado ou indevido do benefício na sua operação.' }
+    ]
+  };
   // Cartões da suíte, na ordem de exibição.
   var SUITE = [
     ['acesso', 'Pessoas e veículos nas áreas críticas'],
@@ -1144,8 +1182,9 @@
         if (typeof v === 'number' && v < menor) { menor = v; pior = q; }
       });
       var idx = PONTOS.indexOf(respostas[key(i, pior)]);
-      var solId = AREA_SOL[m.id][pior] || AREA_SOL[m.id][0];
-      return { i: i, q: pior, id: m.id, label: m.label, nota: r.porMod[m.id], pergunta: m.perguntas[pior].q, resposta: m.perguntas[pior].o[idx], solId: solId, sol: SOL[solId] };
+      var rs = (RESOLVE[m.id] || [])[pior];
+      var solId = rs ? rs.s : (AREA_SOL[m.id][pior] || AREA_SOL[m.id][0]);
+      return { i: i, q: pior, id: m.id, label: m.label, nota: r.porMod[m.id], pergunta: m.perguntas[pior].q, resposta: m.perguntas[pior].o[idx], solId: solId, sol: { nome: SOL[solId].nome, texto: rs ? rs.x : SOL[solId].texto } };
     });
     lista = lista.filter(Boolean);
     lista.sort(function (a, b) { return a.nota - b.nota || a.i - b.i; });
