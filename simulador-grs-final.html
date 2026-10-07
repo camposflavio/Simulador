@@ -335,6 +335,23 @@
   @media (min-width: 641px) and (max-width: 860px) { .sgrs .grs-nums-grid { grid-template-columns: repeat(3, 1fr); } }
   .sgrs .acoes.inicio { justify-content: center; margin-top: 8px; }
   .sgrs .acoes.inicio .btn { font-size: 18px; padding: 18px 48px; min-width: 300px; }
+  /* Resultado bloqueado (formulario) */
+  .sgrs .lock { position: relative; margin-bottom: 0; }
+  .sgrs .lock-preview { position: relative; height: 210px; overflow: hidden; border-radius: 28px 0 28px 0; background: linear-gradient(rgba(0,52,48,.30), rgba(0,52,48,.30)), var(--bg-img) 15% 60% / cover no-repeat, #2b7f77; }
+  .sgrs .lp-inner { position: absolute; inset: 0; display: flex; align-items: center; gap: 28px; padding: 0 9%; filter: blur(7px); transform: scale(1.04); }
+  .sgrs .lp-ring { flex: 0 0 130px; width: 130px; height: 130px; }
+  .sgrs .lp-side { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .sgrs .lp-pill { display: block; width: 150px; height: 26px; border-radius: 99px; background: var(--laranja); }
+  .sgrs .lp-line { height: 10px; border-radius: 99px; background: rgba(255,255,255,.55); }
+  .sgrs .lp-bars { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .sgrs .lp-bars i { display: block; height: 8px; border-radius: 99px; background: var(--menta); }
+  .sgrs .lp-veil { position: absolute; inset: 0; background: rgba(0,40,38,.22); }
+  .sgrs .lock-badge { position: absolute; left: 50%; top: 210px; width: 68px; height: 68px; margin: -34px 0 0 -34px; border-radius: 50%; background: #fff; color: var(--verde-esc); display: flex; align-items: center; justify-content: center; border: 3px solid var(--neon); box-shadow: 0 8px 22px rgba(0,60,56,.28); animation: sgrs-pulso-b 2.6s ease-out infinite; }
+  .sgrs .lock-badge .shackle { transition: transform .35s ease; transform-origin: 16px 11px; }
+  .sgrs .lock-badge.aberto .shackle { transform: translateY(-3px) rotate(-24deg); }
+  .sgrs .lock-head { text-align: center; padding-top: 52px; max-width: 560px; margin: 0 auto; }
+  .sgrs .lock-head .bloco-sub { margin-bottom: 22px; }
+  .sgrs #etapa-form form { max-width: 620px; margin: 0 auto; }
   /* Capa: numeros e tempo medio */
   .sgrs .capa-meta { display: flex; flex-wrap: wrap; gap: 10px 30px; margin: 22px 0 0; }
   .sgrs .capa-meta div { display: flex; flex-direction: column; }
@@ -412,6 +429,11 @@
     .sgrs .capa, .sgrs .hero, .sgrs .grs, .sgrs .cta, .sgrs .bloco, .sgrs .cta-fim { border-radius: 20px 0 20px 0; }
     .sgrs .capa-meta { justify-content: center; gap: 8px 22px; }
     .sgrs .capa::before { width: 80%; height: 40%; }
+    .sgrs .lock-preview { height: 170px; border-radius: 20px 0 20px 0; }
+    .sgrs .lock-badge { top: 170px; }
+    .sgrs .lp-inner { gap: 16px; padding: 0 7%; }
+    .sgrs .lp-ring { flex-basis: 100px; width: 100px; height: 100px; }
+    .sgrs .lp-pill { width: 110px; }
     .sgrs .acoes.inicio .btn { width: 100%; min-width: 0; font-size: 17px; padding: 18px 20px; }
     .sgrs .rd-txt { font-size: 15px; }
     .sgrs .lg-c { display: none; }
@@ -476,8 +498,27 @@
 
   <!-- ETAPA 2A: DADOS PARA LIBERAR O RESULTADO -->
   <section id="etapa-form" hidden>
-    <h2 class="area-titulo">Seu diagnóstico está <span class="chev">pronto</span></h2>
-    <p class="bloco-sub">Informe seus dados para ver a sua nota, o mapa de atenção por área e como as soluções Senior resolvem cada ponto.</p>
+    <div class="lock">
+      <div class="lock-preview" aria-hidden="true">
+        <div class="lp-inner">
+          <svg class="lp-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#44c4ab" stroke-width="12" stroke-linecap="round" stroke-dasharray="200 314" transform="rotate(-90 60 60)"/><text x="60" y="70" text-anchor="middle" font-size="30" font-weight="700" fill="#fff">0,0</text></svg>
+          <div class="lp-side">
+            <span class="lp-pill"></span>
+            <div class="lp-line" style="width:92%"></div>
+            <div class="lp-line" style="width:68%"></div>
+            <div class="lp-bars"><i style="width:80%"></i><i style="width:46%"></i><i style="width:62%"></i><i style="width:30%"></i></div>
+          </div>
+        </div>
+        <div class="lp-veil"></div>
+      </div>
+      <div class="lock-badge" id="lock-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+    </div>
+    <div class="lock-head">
+      <h2 class="area-titulo">Seu diagnóstico está <span class="chev">pronto</span></h2>
+      <p class="bloco-sub">Preencha os dados abaixo para desbloquear a sua nota, o mapa de atenção por área e como as soluções Senior resolvem cada ponto.</p>
+    </div>
     <form id="sgrs-form" novalidate autocomplete="on">
       <div class="grid">
         <div class="campo"><label for="f-nome">Nome</label><input id="f-nome" name="firstname" type="text" autocomplete="given-name"><span class="erro">Informe seu nome</span></div>
@@ -498,7 +539,7 @@
         </div>
       </div>
       <div class="hp" aria-hidden="true"><label>Não preencha<input type="text" id="f-site" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="acoes"><button type="button" class="btn btn-secundario" id="btn-voltar-form">Voltar</button><button type="submit" class="btn btn-primario" id="btn-resultado">Ver meu resultado</button></div>
+      <div class="acoes"><button type="button" class="btn btn-secundario" id="btn-voltar-form">Voltar</button><button type="submit" class="btn btn-primario" id="btn-resultado">Desbloquear meu resultado</button></div>
       <p class="form-nota" id="form-nota">Ao continuar, você concorda com o tratamento dos seus dados conforme a <a id="lnk-priv" href="#" target="_blank" rel="noopener">Política de Privacidade</a> da Senior.</p>
     </form>
   </section>
@@ -948,7 +989,10 @@
       company: $('f-empresa').value.trim(), jobtitle: $('f-cargo').value.trim()
     };
     dados.porte = $('f-porte').value;
-    irParaResultado();
+    var bd = $('lock-badge');
+    $('btn-resultado').disabled = true;
+    if (bd) bd.classList.add('aberto');
+    setTimeout(function () { if (bd) bd.classList.remove('aberto'); $('btn-resultado').disabled = false; irParaResultado(); }, REDUZIDO ? 0 : 700);
   });
 
   // ====== ETAPA 2 ======
