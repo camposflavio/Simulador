@@ -426,12 +426,12 @@
     <div class="capa">
       <div class="capa-txt">
         <span class="capa-rot">Diagnóstico de segurança Senior</span>
-        <h2>Quão <span class="chev">madura</span> é a segurança da sua operação?</h2>
-        <p>Receba a sua nota de 1 a 10, um mapa de atenção por área e as soluções Senior que respondem a cada ponto.</p>
+        <h2>Qual é o nível de <span class="chev">segurança</span> da sua operação?</h2>
+        <p>Receba a sua nota de 1 a 10, um mapa de atenção por área e descubra como as soluções Senior resolvem cada ponto.</p>
         <div class="capa-meta" aria-label="Sobre o diagnóstico">
           <div><strong id="capa-np">17</strong><span>perguntas</span></div>
           <div><strong>8</strong><span>áreas</span></div>
-          <div><strong id="capa-tempo">≈ 5 min</strong><span>em média</span></div>
+          <div><strong id="capa-tempo">5 min</strong><span>em média</span></div>
         </div>
         <ul class="capa-chips" aria-label="Áreas avaliadas">
           <li>Controle de Acesso</li><li>Portarias</li><li>Veículos</li><li>Gestão Remota</li><li>Pessoas</li><li>Áreas Internas</li><li>Áreas Restritas</li><li>Refeitório</li>
@@ -530,7 +530,7 @@
 
     <div class="bloco rv" id="sgrs-matriz" hidden>
       <span class="eyebrow" id="mx-eyebrow">Seu mapa de atenção</span>
-      <h3 class="bloco-titulo" id="mx-titulo">Onde agir primeiro e como a Senior responde</h3>
+      <h3 class="bloco-titulo" id="mx-titulo">Onde agir primeiro e como a Senior resolve</h3>
       <p class="bloco-sub" id="mx-sub">Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.</p>
       <div class="mx" id="sgrs-mx"></div>
       <button type="button" class="btn btn-secundario mx-mais" id="sgrs-mais" hidden>Mostrar as demais áreas</button>
@@ -549,7 +549,7 @@
       <h3>Uma suíte <span class="chev">conectada</span> para cada ponto do seu diagnóstico</h3>
       <p class="grs-p">A Gestão de Riscos e Segurança da Senior reúne soluções que se conectam: controle de acesso de pessoas e veículos, gestão de portarias, terceiros, rotinas e ocorrências, e a centralização dos sistemas de segurança no Security Hub. Você pode começar pela área mais crítica e ampliar com as demais soluções da suíte.</p>
       <div class="grs-chips" id="sgrs-chips"></div>
-      <div class="grs-stat"><strong>+300 milhões</strong><span>de acessos gerenciados por mês</span></div>
+      <div class="grs-stat"><strong>+1800</strong><span>clientes ativos e recorrentes, confiando na nossa solução</span></div>
     </div>
 
     <div class="cta-fim rv">
@@ -587,10 +587,16 @@
   // Fonte do valor de referência de exposição (aparece na seção "Como chegamos nesses números"). Preencher quando validada.
   var FONTE_EXPOSICAO = '';
   // Tempo médio exibido na capa (estimativa, validar com testes reais).
-  var TEMPO_MEDIO = '≈ 5 min';
+  var TEMPO_MEDIO = '5 min';
   // Números de destaque por solução. Preencher com dados validados pelo Produto, ex.:
   // window.SGRS_BIG = { acesso: { n: '+X', t: 'descrição do número' }, portarias: {...}, terceiros: {...}, rotinas: {...}, hub: {...}, ocorrencias: {...} }
-  var BIG = window.SGRS_BIG || {};
+  var BIG = window.SGRS_BIG || {
+    acesso:      { n: '+300 mi', t: 'de acessos gerenciados' },
+    portarias:   { n: '+2100', t: 'portarias gerenciadas' },
+    terceiros:   { n: '+10 mil', t: 'documentos de terceiros gerenciados' },
+    rotinas:     { n: '+1M', t: 'checklists digitais aplicados, otimizando processos e reduzindo falhas' }
+    // hub e ocorrencias: a validar com o Produto
+  };
   var MIN_PONTUADAS = 9;
 
   // Cada opção vale 1, 4, 7 ou 10 pontos (da menos madura para a mais madura).
@@ -1252,7 +1258,7 @@
     mais.hidden = true;
     var VISIVEIS = 4;
     $('mx-eyebrow').textContent = a.madura ? 'Seu próximo nível' : 'Seu mapa de atenção';
-    $('mx-titulo').textContent = a.madura ? 'Onde ainda há espaço para evoluir' : 'Onde agir primeiro e como a Senior responde';
+    $('mx-titulo').textContent = a.madura ? 'Onde ainda há espaço para evoluir' : 'Onde agir primeiro e como a Senior resolve';
     $('mx-sub').textContent = a.madura
       ? 'Mesmo com a maturidade em um bom nível, algumas áreas ainda podem subir. Veja a sua resposta e a solução Senior que atua em cada ponto.'
       : 'Áreas com mais espaço para evoluir, da mais urgente para a menos urgente. Ao lado de cada uma, a sua resposta e a solução Senior que atua nesse ponto.';
@@ -1277,7 +1283,7 @@
           '<p class="mx-perg">' + it.pergunta + '</p>' +
           '<p class="mx-r">Sua resposta: <b>' + it.resposta + '</b></p>' + obsHtml +
           '<button type="button" class="mx-ajustar">Isso não reflete o seu cenário? Revise as respostas desta área</button></div>' +
-        '<div class="mx-sol"><span class="mx-rot">Como a Senior responde</span>' +
+        '<div class="mx-sol"><span class="mx-rot">Como a Senior resolve</span>' +
           '<h5>' + it.sol.nome + '</h5><p>' + it.sol.texto + '</p></div>';
       lin._aoMostrar = function () {
         var i = lin.querySelector('.mx-barra i');
@@ -1339,7 +1345,7 @@
       var nn = alvo.slice(0, 3).map(function (p) { return p.label; });
       var n = alvo.length;
       $('cta-resumo').textContent = 'Nota abaixo de ' + LIMITE_MADURA + ' é sinal de alerta. Seu diagnóstico indicou ' + n + (n === 1 ? ' área para priorizar: ' : ' áreas para priorizar: ') + (n > 3 ? nn.join(', ') + ' e outras.' : juntar(nn) + '.');
-      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior responde a esses pontos na sua operação?';
+      $('cta-pergunta').textContent = 'Quer ver como a Gestão de Riscos e Segurança Senior resolve esses pontos na sua operação?';
     }
     $('btn-cta').setAttribute('href', CTA_URL);
     $('btn-cta2').setAttribute('href', CTA_URL);
