@@ -477,8 +477,12 @@
   /* Proteção contra estilos de botão do tema do HubSpot */
   .sgrs .opcao, .sgrs .obs-toggle { text-align: left; justify-content: flex-start; text-transform: none; letter-spacing: normal; margin: 0; min-width: 0; box-shadow: none; }
   .sgrs .obs-toggle { background: none; border: 0; border-radius: 0; height: auto; }
-  .sgrs .opcao.sel { box-shadow: inset 0 0 0 1px var(--verde); }
-  .sgrs .opcao.na.sel { box-shadow: inset 0 0 0 1px #fff; }
+  /* Opção selecionada: roxo sólido da marca para destacar sobre o fundo verde e as opções brancas */
+  .sgrs .opcao.sel, .sgrs .opcao.sel:hover, .sgrs .opcao.na.sel, .sgrs .opcao.na.sel:hover {
+    background: var(--roxo); border-color: var(--roxo); border-style: solid; box-shadow: 0 6px 16px rgba(60,20,110,.28);
+  }
+  .sgrs .opcao.sel .t, .sgrs .opcao.na.sel .t { color: #fff; font-weight: 700; }
+  .sgrs .opcao.sel .r { border-color: #fff; background: var(--roxo); box-shadow: inset 0 0 0 3px #fff; }
 
   @media (prefers-reduced-motion: reduce) {
     .sgrs .rv { opacity: 1; transform: none; transition: none; }
