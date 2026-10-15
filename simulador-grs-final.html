@@ -484,6 +484,77 @@
   .sgrs .opcao.sel .t, .sgrs .opcao.na.sel .t { color: #fff; font-weight: 700; }
   .sgrs .opcao.sel .r { border-color: #fff; background: var(--roxo); box-shadow: inset 0 0 0 3px #fff; }
 
+  /* ===== Blindagem contra estilos do tema do HubSpot =====
+     O tema aplica cor, sombra, borda e alinhamento em h1-h6, p, a, button, input e select.
+     Aqui tudo que o simulador usa fica declarado de forma explícita (id #sgrs = prioridade maior). */
+  #sgrs h1, #sgrs h2, #sgrs h3, #sgrs h4, #sgrs h5, #sgrs h6 {
+    font-family: inherit; text-transform: none; text-shadow: none; line-height: 1.2; padding: 0; background: none; border: 0;
+  }
+  #sgrs p, #sgrs li, #sgrs label { font-family: inherit; text-transform: none; }
+  #sgrs span, #sgrs small, #sgrs strong, #sgrs b { font-family: inherit; }
+  #sgrs .area-titulo { color: #fff; margin: 0 0 20px; }
+  #sgrs .lock-head .area-titulo { margin-bottom: 10px; }
+  #sgrs .bloco-titulo, #sgrs .mx-area h4, #sgrs .evo-card h4 { color: var(--azul); }
+  #sgrs .capa h2, #sgrs .capa p, #sgrs .hero, #sgrs .hero-texto, #sgrs .grs h3, #sgrs .grs-p, #sgrs .grs-nums h4,
+  #sgrs .cta h3, #sgrs .cta-resumo, #sgrs .grs-chip b, #sgrs .grs-chip span { color: #fff; }
+  #sgrs .capa h2 { margin: 10px 0 12px; font-size: 30px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+  #sgrs .capa h2 .chev, #sgrs .grs h3 .chev { color: var(--neon); }
+  #sgrs .mx-sol h5 { color: var(--verde-esc); }
+  #sgrs a { text-decoration: none; }
+  #sgrs .form-nota a { text-decoration: underline; color: #fff; }
+
+  /* Botões: zera sombra, borda, maiúsculas e alinhamento do tema */
+  #sgrs button, #sgrs .btn {
+    font-family: inherit; text-transform: none; letter-spacing: normal; line-height: 1.25; text-shadow: none;
+    height: auto; min-width: 0; margin: 0; box-shadow: none; outline-offset: 2px; -webkit-appearance: none; appearance: none;
+  }
+  #sgrs .btn { border: 1.5px solid transparent; border-radius: 16px 0 16px 0; display: inline-block; text-align: center; }
+  #sgrs .btn-primario { background: var(--roxo); color: #fff; border-color: var(--roxo); }
+  #sgrs .btn-primario:hover, #sgrs .btn-primario:focus { background: #6c3daa; border-color: #6c3daa; color: #fff; box-shadow: none; }
+  #sgrs .btn-primario:disabled { background: rgba(255,255,255,.3); border-color: transparent; color: rgba(255,255,255,.85); }
+  #sgrs .btn-secundario { background: #fff; color: var(--verde-esc); border-color: var(--verde-esc); }
+  #sgrs .btn-secundario:hover, #sgrs .btn-secundario:focus { background: var(--fundo-suave); color: var(--verde-esc); box-shadow: none; }
+  #sgrs .cta .btn, #sgrs .cta-fim .btn { border-color: transparent; }
+  #sgrs .cta .btn { background: #fff; color: var(--verde-esc); }
+  #sgrs .cta-fim .btn { background: var(--roxo); color: #fff; }
+  #sgrs .acoes.inicio .btn { font-size: 18px; padding: 18px 48px; min-width: 300px; }
+
+  /* Opções das perguntas */
+  #sgrs .opcao { display: flex; align-items: center; justify-content: flex-start; text-align: left; gap: 12px; width: 100%;
+    padding: 12px 14px; border: 1.5px solid var(--borda); border-radius: 12px 0 12px 0; background: #fff; box-shadow: none; }
+  #sgrs .opcao:hover { border-color: var(--menta); background: var(--fundo-suave); }
+  #sgrs .opcao .t { color: var(--texto); font-size: 14px; font-weight: 500; }
+  #sgrs .opcao.na { border-style: dashed; border-color: rgba(255,255,255,.75); background: transparent; }
+  #sgrs .opcao.na .t { color: #fff; font-size: 13px; }
+  #sgrs .opcao.na:hover { background: rgba(255,255,255,.12); border-color: #fff; }
+  #sgrs .opcao.sel, #sgrs .opcao.sel:hover, #sgrs .opcao.na.sel, #sgrs .opcao.na.sel:hover {
+    background: var(--roxo); border-color: var(--roxo); border-style: solid; box-shadow: 0 6px 16px rgba(60,20,110,.28);
+  }
+  #sgrs .opcao.sel .t { color: #fff; font-weight: 700; }
+  #sgrs .obs-toggle, #sgrs .mx-ajustar { background: none; border: 0; border-radius: 0; box-shadow: none; text-align: left; padding: 4px 0; }
+  #sgrs .obs-toggle { color: #fff; }
+  #sgrs .mx-ajustar { color: var(--verde-esc); text-decoration: underline; }
+  #sgrs .mx-mais { margin-top: 14px; }
+
+  /* Campos do formulário */
+  #sgrs input, #sgrs select, #sgrs textarea {
+    font-family: inherit; color: var(--texto); background-color: #fff; border: 1.5px solid var(--borda);
+    border-radius: 10px 0 10px 0; box-shadow: none; height: auto; margin: 0; max-width: none;
+  }
+  #sgrs .invalido input, #sgrs .invalido select { border-color: var(--erro); }
+  #sgrs input:focus, #sgrs select:focus, #sgrs textarea:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(49,149,139,.15); }
+  #sgrs label { color: #fff; display: block; }
+  #sgrs .hp { position: absolute; left: -9999px; }
+
+  @media (max-width: 640px) {
+    #sgrs .capa h2 { font-size: 25px; }
+    #sgrs .btn { width: 100%; }
+    #sgrs .acoes.inicio .btn { width: 100%; min-width: 0; font-size: 17px; padding: 18px 20px; }
+    #sgrs .opcao .t { font-size: 15px; }
+    #sgrs .opcao.na .t { font-size: 14px; }
+    #sgrs #etapa-diag .acoes .btn { width: auto; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .sgrs .rv { opacity: 1; transform: none; transition: none; }
     .sgrs *, .sgrs *::after { animation: none !important; transition: none !important; }
