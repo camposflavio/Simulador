@@ -444,7 +444,7 @@
     .sgrs .grs-nums-grid { grid-template-columns: 1fr 1fr; }
     .sgrs .grs-nums-grid div:last-child { grid-column: 1 / -1; }
     .sgrs .grs-nums-grid strong { font-size: 26px; }
-    .sgrs #etapa-diag .acoes { flex-direction: row; position: sticky; bottom: 0; z-index: 5; background: #fff; margin-top: 14px; padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -10px 14px -10px rgba(0,0,0,.18); }
+    .sgrs #etapa-diag .acoes { flex-direction: row; position: static; margin-top: 24px; padding: 0; background: transparent; box-shadow: none; }
     .sgrs #etapa-diag .acoes .btn { width: auto; flex: 1; padding-left: 12px; padding-right: 12px; }
     .sgrs #etapa-diag .acoes .btn-secundario { flex: 0 0 34%; }
   }
@@ -543,6 +543,15 @@
   #sgrs .invalido input, #sgrs .invalido select { border-color: var(--erro); }
   #sgrs input:focus, #sgrs select:focus, #sgrs textarea:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(49,149,139,.15); }
   #sgrs label { color: #fff; display: block; }
+  /* O tema do HubSpot aplica caixa clara em toda tag <form>; aqui o formulário fica direto sobre o fundo */
+  #sgrs form, #sgrs #sgrs-form { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 0; margin: 0 auto; max-width: 620px; width: auto; }
+  #sgrs .acoes, #sgrs .campo, #sgrs .grid { background: transparent; border: 0; box-shadow: none; padding: 0; }
+  #sgrs .acoes { margin-top: 26px; }
+  #sgrs .acoes.inicio { margin-top: 8px; }
+  #sgrs #etapa-diag .acoes { margin-top: 24px; }
+  #sgrs fieldset { border: 0; padding: 0; margin: 0; background: transparent; }
+  #sgrs input::placeholder, #sgrs textarea::placeholder { color: #7a8a89; opacity: 1; }
+  #sgrs #etapa-diag .acoes { position: static; background: transparent; box-shadow: none; }
   #sgrs .hp { position: absolute; left: -9999px; }
 
   @media (max-width: 640px) {
